@@ -46,6 +46,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $data;
     }
 
+    public function supports(Request $request)
+    {
+        return false;
+    }
+
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $username = $credentials['_username'];
