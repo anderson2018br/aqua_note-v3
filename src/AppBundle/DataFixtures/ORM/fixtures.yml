@@ -1,0 +1,36 @@
+AppBundle\Entity\Genus:
+  genus_{1..10}:
+    SubFamily: '@subFamily_*'
+    User: '@user_*'
+    name: <genus()>
+    speciesCount: <numberBetween(100,100000)>
+    isPublished: <boolean(75)>
+    firstDiscoveredAt: <dateTimeBetween('-6 months', 'now')>
+    funFact: <paragraph(5)>
+    createdAt: <dateTimeBetween('-6 months', 'now')>
+    updatedAt: <dateTimeBetween('-6 months', 'now')>
+
+AppBundle\Entity\SubFamily:
+  subFamily_{1..10}:
+    User: '@user_*'
+    name: <genus()>
+    description: <paragraph(5)>
+    createdAt: <dateTimeBetween('-6 months', 'now')>
+    updatedAt: <dateTimeBetween('-6 months', 'now')>
+
+AppBundle\Entity\GenusNote:
+  genus.note_{1..10}:
+    Genus: '@genus_*'
+    User:  '@user_*'
+    note: <paragraph(20)>
+    createdAt: <dateTimeBetween('-6 months', 'now')>
+    updatedAt: <dateTimeBetween('-6 months', 'now')>
+
+AppBundle\Entity\User:
+  user_{1..35}:
+    username: <username()>
+    plainPassword: 12345
+    roles: ['50%? ROLE_ADMIN : ROLE_USER']
+    avatarFileName: '50%? leanna.jpeg : ryan.jpeg'
+    createdAt: <dateTimeBetween('-6 months', 'now')>
+    updatedAt: <dateTimeBetween('-6 months', 'now')>
