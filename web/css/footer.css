@@ -1,0 +1,23 @@
+footer {
+    width: 100%;
+    /*position: fixed;*/
+    height: 100px;
+    background-color: black;
+}
+
+footer a {
+    margin-left: 50%;
+    display: grid;
+    color: #5eb5e0;
+}
+footer a:hover {
+    color: #5eb5e0;
+}
+.footer-icon {
+    font-size: 25px;
+    margin-left: 13px;
+    margin-top: 25px;
+}
+footer-text {
+    font-size: 20px;
+}

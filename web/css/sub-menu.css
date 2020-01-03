@@ -1,0 +1,38 @@
+.sub-menu {
+    width: 0;
+    height: 72px;
+    background-color: black;
+    margin-left: 250px;
+    margin-top: 136px;
+    position: fixed;
+    overflow: hidden;
+    z-index: 1;
+}
+.sub-menu-activate {
+    width: 100px;
+    border: 1px #5eb5e0 solid;
+    transition: width .3s linear;
+}
+.sub-menu ul{
+    padding-left: 0;
+    padding-right: 0;
+}
+.sub-menu-anchor {
+    color: #5eb5e0;
+}
+
+.sub-menu-item {
+    list-style: none;
+    padding: 2px;
+    border-bottom: 1px #5eb5e0 solid;
+    font-size: 20px;
+    text-align: center;
+}
+.sub-menu-icon {
+    font-size: 13px;
+    vertical-align: baseline;
+    margin-right: 5px;
+}
+.lock-item {
+    color: gray;
+}

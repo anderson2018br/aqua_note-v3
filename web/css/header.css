@@ -1,0 +1,26 @@
+header {
+    background-color: black;
+    height: 75px;
+    position: fixed;
+    width: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+#main-logo img{
+    margin-top: 5px;
+    width: 65px;
+}
+
+#header-text {
+    color: #5eb5e0;
+    font-size: 40px;
+    vertical-align: middle;
+}
+
+.login-button {
+    float: right;
+    margin-top: 18px;
+    margin-right: 5px;
+}
+

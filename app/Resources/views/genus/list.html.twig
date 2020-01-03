@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1 class="text-center">Genus</h1>
+<div class="search">
+    <label>Search
+        <input type="text" id="search" class="form-control" value="{{ filter }}"/>
+    </label>
+    <label>
+        <select id="choice" class="form-control">
+            {% if choice == 1 %}
+                <option value="1" selected>All</option>
+            {% else %}
+                <option value="1">All</option>
+            {% endif %}
+            {% if choice == 2 %}
+                <option value="2" selected>Name</option>
+            {% else %}
+                <option value="2">Name</option>
+            {% endif %}
+            {% if choice == 3 %}
+                <option value="3" selected>SubFamily</option>
+            {% else %}
+                <option value="3">SubFamily</option>
+            {% endif %}
+            {% if choice == 4 %}
+                <option value="4" selected>User</option>
+            {% else %}
+                <option value="4">User</option>
+            {% endif %}
+            {% if choice == 5 %}
+                <option value="5" selected>Amount of Genus</option>
+            {% else %}
+                <option value="5">Amount of Genus</option>
+            {% endif %}
+            {% if choice == 6 %}
+                <option value="6" selected>Discovered At</option>
+            {% else %}
+                <option value="6">Discovered At</option>
+            {% endif %}
+        </select>
+    </label>
+    <label>
+        <select id="how" class="form-control">
+            {% if how == 1 %}
+                <option value="1" selected>Anywhere</option>
+            {% else %}
+                <option value="1">Anywhere</option>
+            {% endif %}
+            {% if how == 2 %}
+                <option value="2" selected>Starting With</option>
+            {% else %}
+                <option value="2">Starting With</option>
+            {% endif %}
+            {% if how == 3 %}
+                <option value="3" selected>Ending With</option>
+            {% else %}
+                <option value="3">Ending With</option>
+            {% endif %}
+            {% if how == 4 %}
+                <option value="4" selected>Exact Word</option>
+            {% else %}
+                <option value="4">Exact Word</option>
+            {% endif %}
+        </select>
+    </label>
+    <a href="{{ path('genus_list') }}" class="btn btn-primary" id="search-button">Search</a>
+    <a href="{{ path('genus_list') }}">Clear Filters</a>
+</div>
+    <table class="table table-borderless" id="genus-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>SubFamily</th>
+                <th>Created By</th>
+                <th>Amount of species</th>
+                <th>Discovered At</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for genus in genuses %}
+            <tr>
+                <td>{{ genus.name }}</td>
+                <td>{{ genus.subFamily.name }}</td>
+                <td>{{ genus.user.username }}</td>
+                <td>{{ genus.speciesCount }}</td>
+                <td>{{ genus.firstDiscoveredAt | date('Y-m-d') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#search-button').on('click',function (e) {
+            e.preventDefault();
+            let filter = $('#search').val();
+            let choice = $('#choice').val();
+            let how = $('#how').val();
+
+            location.href = $('#search-button').attr('href') + '?filter=' + filter + '&choice=' + choice + '&how=' + how;
+        });
+        $('#genus-table').DataTable({
+            info: false,
+            searching: false,
+            pageLength: 5,
+            lengthChange: false
+        });
+    </script>
+{% endblock %}

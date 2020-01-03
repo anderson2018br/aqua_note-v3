@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\GenusRepository")
  * @ORM\Table(name="genus")
  */
 class Genus
@@ -25,7 +25,7 @@ class Genus
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SubFamily")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SubFamily", inversedBy="genus")
      * @Assert\NotBlank()
      */
     private $subFamily;

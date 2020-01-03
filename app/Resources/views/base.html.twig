@@ -2,12 +2,84 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}AquaNote{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('css/all.min.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('css/main.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('css/header.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('css/side-menu.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('css/sub-menu.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('css/footer.css') }}"/>
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-    <body>
+    <body hidden>
+    <header>
+        <a href="#" id="main-logo"><img src="{{ asset('images/aquanote-logo.png') }}" alt="Main Logo" title="Main Logo"/></a>
+        <a href="{{ path('homepage') }}" id="header-text">AquaNote</a>
+        {% if is_granted('ROLE_USER') %}
+        <a>{{ app.user.username }}</a>
+        <a class="btn btn-light login-button" href="{{ path('security_logout') }}">Logout</a>
+        {% else %}
+        <a class="btn btn-light login-button" href="{{ path('security_login') }}">Login</a>
+        {% endif %}
+    </header>
+    <menu>
+        <ul>
+            <a href="{{ path('homepage') }}" class="menu-anchor">
+                <li class="menu-item">
+                        <span class="fa fa-home side-menu-item">&nbsp;</span>
+                        <menu-text class="side-menu-text">Home</menu-text>
+
+                </li>
+            </a>
+            <a class="menu-anchor">
+                <li class="menu-item" id="side-menu-genus">
+                    <span class="fa fa-fish side-menu-item" >&nbsp;</span>
+                    <menu-text class="side-menu-text">Genus</menu-text>
+                </li>
+            </a>
+        </ul>
+    </menu>
+    <div class="sub-menu">
+        <ul>
+            <a href="{{ path('genus_list') }}" class="sub-menu-anchor"><li class="sub-menu-item">List</li></a>
+            {% if is_granted('ROLE_USER') %}
+            <a href="#" class="sub-menu-anchor"><li class="sub-menu-item">New</li></a>
+            {% else %}
+            <a href="#" class="sub-menu-anchor"><li class="sub-menu-item lock-item"><span class="fa fa-lock sub-menu-icon">&nbsp;</span>New</li></a>
+            {% endif %}
+        </ul>
+    </div>
+    <main class="container">
+        {% for msg in app.session.flashBag.get('success') %}
+            <div class="alert alert-success">
+                {{ msg }}
+            </div>
+        {% endfor %}
+        {% for msg in app.session.flashBag.get('danger') %}
+            <div class="alert alert-danger">
+                {{ msg }}
+            </div>
+        {% endfor %}
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+    </main>
+    <footer>
+        <a href="#"><span class="fa fa-home footer-icon">&nbsp;</span><footer-text>Genus</footer-text></a>
+    </footer>
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/popper.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/all.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/main.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/side-menu.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/sub-menu.js') }}"></script>
+        {% endblock %}
     </body>
 </html>
