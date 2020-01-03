@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1 class="text-center">List</h1>
+    <div class="search">
+        <label>Search
+            <input type="text" id="search" class="form-control"/>
+        </label>
+        <label>
+            <select id="choice" class="form-control">
+                <option value="1">All</option>
+                <option value="2">Name</option>
+                <option value="3">User</option>
+                <option value="4">Description</option>
+            </select>
+        </label>
+        <label>
+            <select id="how" class="form-control">
+                <option value="1">Anywhere</option>
+                <option value="2">Starting With</option>
+                <option value="3">Ending With</option>
+                <option value="4">Exact Word</option>
+            </select>
+        </label>
+        <a href="{{ path('subfamily_list') }}" class="btn btn-primary" id="search-button">Search</a>
+        <a href="{{ path('subfamily_list') }}">Clear Filters</a>
+        {%  if is_granted('ROLE_USER') %}
+        <a href="#" class="btn btn-primary btn-new">New</a>
+        {% endif %}
+    </div>
+<table class="table table-borderless" id="table-family">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Created By</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for subFamily in subFamilies %}
+        <tr>
+            <td>{{ subFamily.name }}</td>
+            <td>{{ subFamily.user.username }}</td>
+            <td>
+                <textarea class="form-control" readonly style="background-color: #FFFFFF; border: none; color: black;">
+                    {{ subFamily.description }}
+                </textarea>
+            </td>
+            <td></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#table-family').DataTable({
+            info: false,
+            searching: false,
+            pageLength: 5,
+            lengthChange: false
+        });
+    </script>
+{% endblock %}

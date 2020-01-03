@@ -4,3 +4,7 @@ a:hover {
 main {
     padding-top: 80px;
 }
+
+.btn-new {
+    float: right;
+}

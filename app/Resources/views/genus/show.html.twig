@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2 class="genus-name">{{ genus.name }}</h2>
+    <div class="sea-creature-container">
+        <div class="genus-photo"></div>
+        <div class="genus-details">
+            <dl class="genus-details-list">
+                <dt>Sub Family:</dt>
+                <dd>{{ genus.subFamily.name }}</dd>
+                <dt>Known Species:</dt>
+                <dd>{{ genus.speciesCount }}</dd>
+                <dt>Fun Fact:</dt>
+                <dd>{{ genus.funFact }}</dd>
+                <dt>Created By</dt>
+                <dd>{{ genus.user.username }}</dd>
+            </dl>
+        </div>
+    </div>
+
+    {% if is_granted('ROLE_USER') %}
+        <div class="js-add-note" id="note-form">
+            <h1 class="title">New Note</h1>
+            {{ include('genus/_noteForm.html.twig') }}
+        </div>
+
+        <div class="notes-container">
+            <h2 class="notes-header">Notes</h2>
+            <div>
+                <a href="#" class="btn-note">
+                    <span class="fa plus fa-plus-circle fa-lg" style="margin-top: 11px!important; color: green;">&nbsp;</span>
+                </a>
+            </div>
+        </div>
+    {% else %}
+        <h2 class="notes-header notes-container">Notes</h2>
+    {% endif %}
+    <div id="js-notes-wrapper"></div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/notes.css') }}"/>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script type="text/babel" src="{{ asset('js/notes.react.js') }}"></script>
+
+    <script type="text/babel">
+        let notesUrl = '{{ path('genus_show_note', {'id': genus.id}) }}';
+        ReactDOM.render(
+            <NoteSection url={notesUrl}/>,
+            document.getElementById('js-notes-wrapper')
+        );
+    </script>
+
+    <script>
+        $('.btn-note').on('click', function (e) {
+            e.preventDefault();
+            $('#note-form').toggleClass('js-add-note-activate');
+            $('.plus').toggleClass('fa-plus-circle');
+            $('.plus').toggleClass('fa-minus-circle');
+        });
+    </script>
+{% endblock %}

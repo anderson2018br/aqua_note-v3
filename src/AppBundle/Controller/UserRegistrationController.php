@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
 use AppBundle\Form\UserRegistrationForm;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +16,14 @@ class UserRegistrationController extends Controller
      * @param Request $request
      * @Route("/register", name="user_register")
      * @return Response
+     * @throws \Exception
      */
     public function registerAction(Request $request)
     {
-        $form = $this->createForm(UserRegistrationForm::class);
+        $user = new User();
+        $user->setCreatedAt(new DateTime());
+        $user->setUpdatedAt(new DateTime());
+        $form = $this->createForm(UserRegistrationForm::class, $user);
 
         $form->handleRequest($request);
 
@@ -28,7 +34,7 @@ class UserRegistrationController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', 'Welcome '.$user->getEmail());
+            $this->addFlash('success', 'Welcome '.$user->getusername());
 
             return $this->get('security.authentication.guard_handler')
                 ->authenticateUserAndHandleSuccess(
@@ -38,8 +44,8 @@ class UserRegistrationController extends Controller
                     'main'
                 );
         }
-        return $this->render('', [
-            'form', $form->createView()
+        return $this->render('Security/register.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 }

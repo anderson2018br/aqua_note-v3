@@ -20,6 +20,12 @@ class UserRegistrationForm extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class
             ])
+            ->add('avatarFileName', ChoiceType::class, array(
+                'choices' => array(
+                    'Ryan' => 'ryan.jpeg',
+                    'Leanna' => 'leanna.jpeg'
+                )
+            ))
             ->add('roles', ChoiceType::class, [
                 'multiple' => true,
                 'expanded' => true,

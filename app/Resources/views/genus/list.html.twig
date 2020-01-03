@@ -66,6 +66,10 @@
     </label>
     <a href="{{ path('genus_list') }}" class="btn btn-primary" id="search-button">Search</a>
     <a href="{{ path('genus_list') }}">Clear Filters</a>
+    {% if is_granted('ROLE_USER') %}
+    <a href="{{ path('genus_new') }}" class="btn btn-primary btn-new">New</a>
+    {% endif %}
+
 </div>
     <table class="table table-borderless" id="genus-table">
         <thead>
@@ -75,6 +79,7 @@
                 <th>Created By</th>
                 <th>Amount of species</th>
                 <th>Discovered At</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -85,15 +90,29 @@
                 <td>{{ genus.user.username }}</td>
                 <td>{{ genus.speciesCount }}</td>
                 <td>{{ genus.firstDiscoveredAt | date('Y-m-d') }}</td>
+                <td>
+                    <a href="{{ path('genus_show', {'id': genus.id}) }}"><span class="fa fa-eye" style="color: black;">&nbsp;</span></a>
+                    {% if is_granted('ROLE_ADMIN') or genus.user.username == app.user.username %}
+                        | <a href="{{ path('genus_edit', {'id': genus.id}) }}"><span class="fa fa-pen" style="color: black;">&nbsp;</span></a>
+                        | <a href="{{ path('genus_delete', {'id': genus.id}) }}" class="delete-genus"><span class="fa fa-trash-alt" style="color: black;">&nbsp;</span></a>
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script>
+        $('.delete-genus').on('click',function (e) {
+            if(!confirm("Are you sure you want to delete this genus"))
+            {
+                e.preventDefault();
+            }
+        });
         $('#search-button').on('click',function (e) {
             e.preventDefault();
             let filter = $('#search').val();

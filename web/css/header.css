@@ -23,4 +23,10 @@ header {
     margin-top: 18px;
     margin-right: 5px;
 }
-
+#username {
+    color: #5eb5e0;
+    font-size: 25px;
+    float: right;
+    margin-top: 18px;
+    margin-right: 5px;
+}

@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\SubFamilyRepository")
  * @ORM\Table(name="sub_family")
  */
 class SubFamily
@@ -154,5 +154,9 @@ class SubFamily
     }
 
 
+    public function __toString()
+    {
+        return $this->name;
+    }
 
 }

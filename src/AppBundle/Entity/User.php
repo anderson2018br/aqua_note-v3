@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\Table(name="user")
  * @UniqueEntity(fields={"username"}, message="It looks like you already have an account")
  */
@@ -240,5 +240,8 @@ class User implements UserInterface
         $this->updatedAt = $updatedAt;
     }
 
-
+    public function __toString()
+    {
+        return $this->username;
+    }
 }

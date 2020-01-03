@@ -1,0 +1,9 @@
+{{ form_start(form) }}
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.subFamily) }}
+                    {{ form_row(form.firstDiscoveredAt) }}
+                    {{ form_row(form.speciesCount) }}
+                    {{ form_row(form.funFact) }}
+<a href="{{ path('genus_list') }}" class="btn btn-dark">Back</a>
+<button type="submit" class="btn btn-success">Save</button>
+{{ form_end(form) }}

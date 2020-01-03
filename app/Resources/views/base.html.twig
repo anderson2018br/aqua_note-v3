@@ -21,9 +21,10 @@
         <a href="#" id="main-logo"><img src="{{ asset('images/aquanote-logo.png') }}" alt="Main Logo" title="Main Logo"/></a>
         <a href="{{ path('homepage') }}" id="header-text">AquaNote</a>
         {% if is_granted('ROLE_USER') %}
-        <a>{{ app.user.username }}</a>
         <a class="btn btn-light login-button" href="{{ path('security_logout') }}">Logout</a>
+        <a id="username">{{ app.user.username }}</a>
         {% else %}
+         <a class="btn btn-light login-button" href="{{ path('user_register') }}">Register</a>
         <a class="btn btn-light login-button" href="{{ path('security_login') }}">Login</a>
         {% endif %}
     </header>
@@ -42,11 +43,27 @@
                     <menu-text class="side-menu-text">Genus</menu-text>
                 </li>
             </a>
+            <a class="menu-anchor">
+                <li class="menu-item" id="side-menu-sub-family">
+                    <span class="fa fa-water side-menu-item">&nbsp;</span>
+                    <menu-text class="side-menu-text">SubFamily</menu-text>
+                </li>
+            </a>
         </ul>
     </menu>
-    <div class="sub-menu">
+    <div class="sub-menu genus">
         <ul>
             <a href="{{ path('genus_list') }}" class="sub-menu-anchor"><li class="sub-menu-item">List</li></a>
+            {% if is_granted('ROLE_USER') %}
+            <a href="{{ path('genus_new') }}" class="sub-menu-anchor"><li class="sub-menu-item">New</li></a>
+            {% else %}
+            <a href="#" class="sub-menu-anchor"><li class="sub-menu-item lock-item"><span class="fa fa-lock sub-menu-icon">&nbsp;</span>New</li></a>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="sub-menu sub-family" style="top: 62px;">
+        <ul>
+            <a href="{{ path('subfamily_list') }}" class="sub-menu-anchor"><li class="sub-menu-item">List</li></a>
             {% if is_granted('ROLE_USER') %}
             <a href="#" class="sub-menu-anchor"><li class="sub-menu-item">New</li></a>
             {% else %}
@@ -67,9 +84,11 @@
         {% endfor %}
         {% block body %}{% endblock %}
     </main>
-    <footer>
-        <a href="#"><span class="fa fa-home footer-icon">&nbsp;</span><footer-text>Genus</footer-text></a>
-    </footer>
+{#    <footer>#}
+{#        <a href="{{ path('homepage') }}"><span class="fa fa-home footer-icon">&nbsp;</span><footer-text>Home</footer-text></a>#}
+{#        <a href="{{ path('genus_list') }}" class="footer-genus"><span class="fa fa-fish footer-icon">&nbsp;</span><footer-text>Genus</footer-text></a>#}
+{#        <a href="{{ path('subfamily_list') }}" class="footer-subFamily"><span class="fa fa-water footer-icon">&nbsp;</span><footer-text>SubFamily</footer-text></a>#}
+{#    </footer>#}
         {% block javascripts %}
             <script type="text/javascript" src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('js/popper.min.js') }}"></script>

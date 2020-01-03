@@ -6,7 +6,7 @@ footer {
 }
 
 footer a {
-    margin-left: 50%;
+    margin-left: 45%;
     display: grid;
     color: #5eb5e0;
 }
@@ -20,4 +20,9 @@ footer a:hover {
 }
 footer-text {
     font-size: 20px;
+}
+
+.footer-genus {
+    margin-left: 50%;
+    margin-top: -80px;
 }

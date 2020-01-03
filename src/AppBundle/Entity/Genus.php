@@ -71,6 +71,7 @@ class Genus
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\GenusNote", mappedBy="genus")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $note;
     /**
@@ -237,6 +238,14 @@ class Genus
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNote()
+    {
+        return $this->note;
     }
 
 
