@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class GenusNoteController
  * @package AppBundle\Controller
  * @Route("/notes")
+ * @noinspection PhpUnused
  */
 class GenusNoteController extends Controller
 {
