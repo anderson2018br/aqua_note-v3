@@ -155,10 +155,25 @@ class GenusNoteController extends Controller
      * @noinspection PhpUnused
      * @Route("/delete/{id}", name="note_delete")
      * @Security("is_granted('ROLE_ADMIN')")
+     * @return RedirectResponse
      */
     public function deleteAction($id)
     {
         $this->checkNonObjectAuthorization();
+        $note = $this->getDoctrine()->getRepository('AppBundle:GenusNote')->find($id);
+        $genus = $note->getGenus();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->remove($note);
+        $em->flush();
+        /** @noinspection PhpUndefinedMethodInspection */
+        $genus->setAmountOfNotes();
+
+        $em->persist($genus);
+        $em->flush();
+
+        return $this->redirectToRoute('notes_list');
     }
 
     /**

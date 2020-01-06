@@ -141,11 +141,14 @@ class GenusController extends Controller
         if ($form->isValid())
         {
             $genus = $form->getData();
-
+            $subFamily = $genus->getSubFamily();
             $em = $this->getDoctrine()->getManager();
             $em->merge($genus);
             $em->flush();
-
+            /** @noinspection PhpUndefinedMethodInspection */
+            $subFamily->setAmountOfGenus();
+            $em->persist($subFamily);
+            $em->flush();
             $this->addFlash('success', sprintf('Genus Updated'));
 
             return $this->redirectToRoute('genus_list');
