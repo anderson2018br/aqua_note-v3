@@ -4,28 +4,60 @@
 <h1 class="text-center">List</h1>
     <div class="search">
         <label>Search
-            <input type="text" id="search" class="form-control"/>
+            <input type="text" id="search" class="form-control" value="{{ filter }}"/>
         </label>
         <label>
             <select id="choice" class="form-control">
-                <option value="1">All</option>
-                <option value="2">Name</option>
-                <option value="3">User</option>
-                <option value="4">Description</option>
+                {% if choice == 1 %}
+                    <option value="1" selected>All</option>
+                {% else %}
+                    <option value="1">All</option>
+                {% endif %}
+                {% if choice == 2 %}
+                    <option value="2" selected>Name</option>
+                {% else %}
+                    <option value="2">Name</option>
+                {% endif %}
+                {% if choice == 3 %}
+                    <option value="3" selected>User</option>
+                {% else %}
+                    <option value="3">User</option>
+                {% endif %}
+                {% if choice == 4 %}
+                    <option value="4" selected>Description</option>
+                {% else %}
+                    <option value="4">Description</option>
+                {% endif %}
             </select>
         </label>
         <label>
             <select id="how" class="form-control">
-                <option value="1">Anywhere</option>
-                <option value="2">Starting With</option>
-                <option value="3">Ending With</option>
-                <option value="4">Exact Word</option>
+                {% if how == 1 %}
+                    <option value="1" selected>Anywhere</option>
+                {% else %}
+                    <option value="1">Anywhere</option>
+                {% endif %}
+                {% if how == 2 %}
+                    <option value="2" selected>Starting With</option>
+                {% else %}
+                    <option value="2">Starting With</option>
+                {% endif %}
+                {% if how == 3 %}
+                    <option value="3" selected>Ending With</option>
+                {% else %}
+                    <option value="3">Ending With</option>
+                {% endif %}
+                {% if how == 4 %}
+                    <option value="4" selected>Exact Word</option>
+                {% else %}
+                    <option value="4">Exact Word</option>
+                {% endif %}
             </select>
         </label>
         <a href="{{ path('subfamily_list') }}" class="btn btn-primary" id="search-button">Search</a>
         <a href="{{ path('subfamily_list') }}">Clear Filters</a>
         {%  if is_granted('ROLE_USER') %}
-        <a href="#" class="btn btn-primary btn-new">New</a>
+        <a href="{{ path('family_new') }}" class="btn btn-primary btn-new">New</a>
         {% endif %}
     </div>
 <table class="table table-borderless" id="table-family">
@@ -43,11 +75,19 @@
             <td>{{ subFamily.name }}</td>
             <td>{{ subFamily.user.username }}</td>
             <td>
-                <textarea class="form-control" readonly style="background-color: #FFFFFF; border: none; color: black;">
-                    {{ subFamily.description }}
-                </textarea>
+                <label>
+                    <textarea class="form-control" readonly style="background-color: #FFFFFF; border: none; color: black;">{{ subFamily.description }}</textarea>
+                </label>
             </td>
-            <td></td>
+            <td>
+                <a href="{{ path('show_family', {'id': subFamily.id}) }}"><span class="fa fa-eye actions">&nbsp;</span></a>
+                {% if is_granted('ROLE_USER') %}
+                    {% if is_granted('ROLE_ADMIN') or app.user.username == subFamily.user.username %}
+                      |  <a href="{{ path('family_edit', {'id': subFamily.id}) }}"><span class="fa fa-pen actions">&nbsp;</span></a>
+                      |  <a class="delete-link" href="{{ path('family_delete', {'id': subFamily.id}) }}" id="delete-link"><span class="fa fa-trash-alt actions">&nbsp;</span></a>
+                    {% endif %}
+                {% endif %}
+            </td>
         </tr>
     {% endfor %}
     </tbody>
@@ -61,7 +101,27 @@
             info: false,
             searching: false,
             pageLength: 5,
-            lengthChange: false
+            lengthChange: false,
+            aaSorting: []
+        });
+    </script>
+    <script>
+        $('#search-button').on('click', function (e) {
+            e.preventDefault();
+
+            let filter = $('#search').val();
+            let choice = $('#choice').val();
+            let how    = $('#how').val();
+
+            location.href = $('#search-button').attr('href') + '?filter=' + filter + '&choice=' + choice + '&how=' + how;
+        });
+    </script>
+    <script>
+        $('.delete-link').on('click', function (e) {
+            if (!confirm("Are you sure you want to delete this subFamily all genus and notes will be deleted as well"))
+            {
+                e.preventDefault();
+            }
         });
     </script>
 {% endblock %}

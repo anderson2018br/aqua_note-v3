@@ -6,6 +6,15 @@ use Doctrine\ORM\EntityRepository;
 
 class GenusRepository extends EntityRepository
 {
+    // find all ordered
+    public function findAllOrderedBy()
+    {
+        return $this->createQueryBuilder('g')
+            ->addOrderBy('g.updatedAt','DESC')
+            ->getQuery()
+            ->execute();
+    }
+
     // find all anywhere
     public function findAllByQueryAnywhere($filter)
     {

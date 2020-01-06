@@ -32,7 +32,7 @@ class GenusController extends Controller
      */
     public function listAction(Request $request)
     {
-        $genuses = $this->getDoctrine()->getRepository('AppBundle:Genus')->findAll();
+        $genuses = $this->getDoctrine()->getRepository('AppBundle:Genus')->findAllOrderedBy();
         $filter = $request->query->get('filter');
         $choice = $request->query->get('choice');
         $how = $request->query->get('how');
@@ -294,5 +294,15 @@ class GenusController extends Controller
             }
         }
         return $genus;
+    }
+
+    /**
+     * @return RedirectResponse
+     * @Route("/")
+     * @noinspection PhpUnused
+     */
+    public function indexAction()
+    {
+        return $this->redirectToRoute('genus_list');
     }
 }
