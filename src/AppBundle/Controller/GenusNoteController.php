@@ -20,7 +20,7 @@ class GenusNoteController extends Controller
     {
         $notes = $this->getDoctrine()->getRepository('AppBundle:GenusNote')->findAll();
 
-        $this->render('Notes/list.html.twig', array(
+        return $this->render('Notes/list.html.twig', array(
             'notes' => $notes
         ));
     }
