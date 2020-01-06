@@ -6,13 +6,21 @@
         <label>Search
             <input type="text" class="form-control" id="search"/>
         </label>
+        <label>
+            <select class="form-control" id="choice">
+                <option value="1">All</option>
+                <option value="2">Genus</option>
+                <option value="3">User</option>
+                <option value="4">Note</option>
+            </select>
+        </label>
     </div>
 <table class="table table-borderless" id="notes-table">
     <thead>
         <tr>
             <th>Genus</th>
             <th>Created By</th>
-            <th>Notes</th>
+            <th>Note</th>
             <th>Actions</th>
         </tr>
     </thead>
