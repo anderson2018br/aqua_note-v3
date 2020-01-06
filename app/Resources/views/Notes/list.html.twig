@@ -2,7 +2,7 @@
 
 {% block body %}
 <h1 class="text-center">List</h1>
-<table class="table table-borderless">
+<table class="table table-borderless" id="notes-table">
     <thead>
         <tr>
             <th>Genus</th>
@@ -25,4 +25,16 @@
        {% endfor %}
     </tbody>
 </table>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#notes-table').DataTable({
+            info: false,
+            searching: false,
+            pageLength: 5,
+            lengthChange: false,
+            aaSorting: []
+        });
+    </script>
 {% endblock %}
