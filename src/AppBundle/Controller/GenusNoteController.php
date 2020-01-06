@@ -73,12 +73,16 @@ class GenusNoteController extends Controller
         if ($form->isValid())
         {
             $notes = $form->getData();
-
+            $genus = $notes->getGenus();
+            /** @noinspection PhpUndefinedMethodInspection */
+            $genus->setAmountOfNotes();
             $em = $this->getDoctrine()->getManager();
 
             $em->persist($notes);
             $em->flush();
 
+            $em->persist($genus);
+            $em->flush();
             $this->addFlash('success',sprintf('Note Created!'));
 
             return $this->redirectToRoute('notes_list');
@@ -98,11 +102,63 @@ class GenusNoteController extends Controller
      */
     public function showAction($id)
     {
+        $this->checkNonObjectAuthorization();
         $note = $this->getDoctrine()->getRepository('AppBundle:GenusNote')->find($id);
 
         return $this->render('Notes/show.html.twig', array(
             'note' => $note,
         ));
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @noinspection PhpUnused
+     * @Route("/edit/{id}", name="note_edit")
+     * @Security("is_granted('ROLE_ADMIN')")
+     * @return RedirectResponse|Response
+     * @throws Exception
+     */
+    public function editAction(Request $request, $id)
+    {
+        $this->checkNonObjectAuthorization();
+        $note = $this->getDoctrine()->getRepository('AppBundle:GenusNote')->find($id);
+        $note->setUpdatedAt(new DateTime());
+
+        $form = $this->createForm(GenusNoteForm::class, $note);
+        $form->handleRequest($request);
+
+        if ($form->isValid())
+        {
+            $notes = $form->getData();
+            $genus = $notes->getGenus();
+            /** @noinspection PhpUndefinedMethodInspection */
+            $genus->setAmountOfNotes();
+            $em = $this->getDoctrine()->getManager();
+
+            $em->merge($notes);
+            $em->flush();
+
+            $this->addFlash('success', sprintf('Note Updated!'));
+
+            return $this->redirectToRoute('notes_list');
+        }
+
+        return $this->render('Notes/edit.html.twig', array(
+            'form' => $form->createView(),
+            'note' => $note
+        ));
+    }
+
+    /**
+     * @param $id
+     * @noinspection PhpUnused
+     * @Route("/delete/{id}", name="note_delete")
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function deleteAction($id)
+    {
+        $this->checkNonObjectAuthorization();
     }
 
     /**

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-area">Edit note from genus {{ note.genus.name }}</h1>
+                {{ include('Notes/_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

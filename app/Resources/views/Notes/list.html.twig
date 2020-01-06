@@ -78,7 +78,8 @@
                     </label>
                 </td>
                 <td>
-                    <a href="{{ path('note_show', {'id': note.id}) }}"><span class="fa fa-eye actions">&nbsp;</span></a>
+                    <a href="{{ path('note_show', {'id': note.id}) }}"><span class="fa fa-eye actions">&nbsp;</span></a> |
+                    <a href="{{ path('note_edit', {'id': note.id}) }}"><span class="fa fa-pen actions">&nbsp;</span></a>
                 </td>
             </tr>
        {% endfor %}
