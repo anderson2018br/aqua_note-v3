@@ -14,6 +14,14 @@ $('.sub-family').mouseleave(function () {
     $('menu').removeClass('side-menu-logo');
     $('.sub-family').removeClass('sub-menu-activate');
 });
+$('.notes').mouseenter(function () {
+    $('menu').addClass('side-menu-logo');
+    $('.notes').addClass('sub-menu-activate');
+});
+$('.notes').mouseleave(function () {
+    $('menu').removeClass('side-menu-logo');
+    $('.notes').removeClass('sub-menu-activate');
+});
 
 $('#side-menu-genus').mouseenter(function () {
     $('.genus').addClass('sub-menu-activate');
@@ -26,4 +34,10 @@ $('#side-menu-sub-family').mouseenter(function () {
 });
 $('#side-menu-sub-family').mouseleave(function () {
     $('.sub-family').removeClass('sub-menu-activate');
+});
+$('#side-menu-notes').mouseenter(function () {
+    $('.notes').addClass('sub-menu-activate');
+});
+$('#side-menu-notes').mouseleave(function () {
+    $('.notes').removeClass('sub-menu-activate');
 });

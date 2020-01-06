@@ -50,6 +50,14 @@
                     <menu-text class="side-menu-text">SubFamily</menu-text>
                 </li>
             </a>
+            {% if is_granted('ROLE_ADMIN') %}
+            <a class="menu-anchor">
+                <li class="menu-item" id="side-menu-notes">
+                    <span class="fa fa-book-open side-menu-item">&nbsp;</span>
+                    <menu-text class="side-menu-text">Notes</menu-text>
+                </li>
+            </a>
+            {% endif %}
         </ul>
     </menu>
     <div class="sub-menu genus">
@@ -72,6 +80,14 @@
             {% endif %}
         </ul>
     </div>
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="sub-menu notes" style="top: 124px;">
+        <ul>
+            <a href="#" class="sub-menu-anchor"><li class="sub-menu-item">List</li></a>
+            <a href="#" class="sub-menu-anchor"><li class="sub-menu-item">New</li></a>
+        </ul>
+    </div>
+    {% endif %}
     <main class="container">
         {% for msg in app.session.flashBag.get('success') %}
             <div class="alert alert-success">
@@ -89,6 +105,7 @@
 {#        <a href="{{ path('homepage') }}"><span class="fa fa-home footer-icon">&nbsp;</span><footer-text>Home</footer-text></a>#}
 {#        <a href="{{ path('genus_list') }}" class="footer-genus"><span class="fa fa-fish footer-icon">&nbsp;</span><footer-text>Genus</footer-text></a>#}
 {#        <a href="{{ path('subfamily_list') }}" class="footer-subFamily"><span class="fa fa-water footer-icon">&nbsp;</span><footer-text>SubFamily</footer-text></a>#}
+{#        <a href="#" class="footer-notes"><span class="fa fa-book-open footer-icon">&nbsp;</span><footer-text>Notes</footer-text></a>#}
 {#    </footer>#}
         {% block javascripts %}
             <script type="text/javascript" src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
