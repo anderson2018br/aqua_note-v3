@@ -4,22 +4,54 @@
 <h1 class="text-center">List</h1>
     <div class="search">
         <label>Search
-            <input type="text" class="form-control" id="search"/>
+            <input type="text" class="form-control" id="search" value="{{ filter }}"/>
         </label>
         <label>
             <select class="form-control" id="choice">
-                <option value="1">All</option>
-                <option value="2">Genus</option>
-                <option value="3">User</option>
-                <option value="4">Note</option>
+                {% if choice == 1 %}
+                    <option value="1" selected>All</option>
+                {% else %}
+                    <option value="1">All</option>
+                {% endif %}
+                {% if choice == 2 %}
+                    <option value="2" selected>Genus</option>
+                {% else %}
+                    <option value="2">Genus</option>
+                {% endif %}
+                {% if choice == 3 %}
+                    <option value="3" selected>User</option>
+                {% else %}
+                    <option value="3">User</option>
+                {% endif %}
+                {% if choice == 4 %}
+                    <option value="4" selected>Note</option>
+                {% else %}
+                    <option value="4">Note</option>
+                {% endif %}
             </select>
         </label>
         <label>
             <select class="form-control" id="how">
-                <option value="1">Anywhere</option>
-                <option value="2">Starting With</option>
-                <option value="3">Ending With</option>
-                <option value="4">Exact Word</option>
+                {% if how == 1 %}
+                    <option value="1" selected>Anywhere</option>
+                {% else %}
+                    <option value="1">Anywhere</option>
+                {% endif %}
+                {% if how == 2 %}
+                    <option value="2" selected>Starting With</option>
+                {% else %}
+                    <option value="2">Starting With</option>
+                {% endif %}
+                {% if how == 3 %}
+                    <option value="3" selected>Ending With</option>
+                {% else %}
+                    <option value="3">Ending With</option>
+                {% endif %}
+                {% if how == 4 %}
+                    <option value="4" selected>Exact Word</option>
+                {% else %}
+                    <option value="4">Exact Word</option>
+                {% endif %}
             </select>
         </label>
         <a href="{{ path('notes_list') }}" class="btn btn-primary" id="search-button">Search</a>
