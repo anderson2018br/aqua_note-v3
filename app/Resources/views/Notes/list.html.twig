@@ -60,4 +60,15 @@
             aaSorting: []
         });
     </script>
+    <script>
+        $('#search-button').on('click', function (e) {
+            e.preventDefault();
+
+            let filter = $('#search').val();
+            let choice = $('#choice').val();
+            let how    = $('#how').val();
+
+            location.href = $('#search-button').attr('href') + '?filter=' + filter + '&choice=' + choice + '&how=' + how;
+        })
+    </script>
 {% endblock %}
