@@ -1,0 +1,7 @@
+{{ form_start(form) }}
+                    {{ form_row(form.genus) }}
+                    {{ form_row(form.note) }}
+
+<a href="{{ path('notes_list') }}" class="btn btn-dark">back</a>
+<button class="btn btn-success" type="submit">Save</button>
+{{ form_end(form) }}

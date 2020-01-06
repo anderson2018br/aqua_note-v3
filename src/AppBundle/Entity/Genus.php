@@ -271,5 +271,8 @@ class Genus
         $this->amountOfNotes = count($this->note);
     }
 
-
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
