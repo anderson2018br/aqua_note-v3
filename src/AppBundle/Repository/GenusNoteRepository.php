@@ -17,4 +17,69 @@ class GenusNoteRepository extends EntityRepository
             ->getQuery()
             ->execute();
     }
+
+    // find all
+    public function findAllByQueryAnywhere($filter)
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.note LIKE :filter')
+            ->setParameter('filter', '%'.$filter.'%')
+            ->innerJoin('n.genus', 'g', 'WITH', 'n.genus = g.id')
+            ->orWhere('g.name LIKE :filter')
+            ->setParameter('filter', '%'.$filter.'%')
+            ->innerJoin('n.user', 'u', 'WITH', 'n.user = u.id')
+            ->orWhere('u.username LIKE :filter')
+            ->setParameter('filter', '%'.$filter.'%')
+            ->addOrderBy('n.updatedAt','DESC')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByQueryStartingWith($filter)
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.note LIKE :filter')
+            ->setParameter('filter', $filter.'%')
+            ->innerJoin('n.genus', 'g', 'WITH', 'n.genus = g.id')
+            ->orWhere('g.name LIKE :filter')
+            ->setParameter('filter', $filter.'%')
+            ->innerJoin('n.user', 'u', 'WITH', 'n.user = u.id')
+            ->orWhere('u.username LIKE :filter')
+            ->setParameter('filter', $filter.'%')
+            ->addOrderBy('n.updatedAt','DESC')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByQueryEndingWith($filter)
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.note LIKE :filter')
+            ->setParameter('filter', '%'.$filter)
+            ->innerJoin('n.genus', 'g', 'WITH', 'n.genus = g.id')
+            ->orWhere('g.name LIKE :filter')
+            ->setParameter('filter', '%'.$filter)
+            ->innerJoin('n.user', 'u', 'WITH', 'n.user = u.id')
+            ->orWhere('u.username LIKE :filter')
+            ->setParameter('filter', '%'.$filter)
+            ->addOrderBy('n.updatedAt','DESC')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByQueryExactWord($filter)
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.note LIKE :filter')
+            ->setParameter('filter', $filter)
+            ->innerJoin('n.genus', 'g', 'WITH', 'n.genus = g.id')
+            ->orWhere('g.name LIKE :filter')
+            ->setParameter('filter', $filter)
+            ->innerJoin('n.user', 'u','WITH', 'n.user = u.id')
+            ->orWhere('u.username LIKE :filter')
+            ->setParameter('filter', $filter)
+            ->addOrderBy('n.updatedAt', 'DESC')
+            ->getQuery()
+            ->execute();
+    }
 }
