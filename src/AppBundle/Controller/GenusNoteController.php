@@ -19,7 +19,7 @@ class GenusNoteController extends Controller
      */
     public function listAction()
     {
-        $notes = $this->getDoctrine()->getRepository('AppBundle:GenusNote')->findAll();
+        $notes = $this->getDoctrine()->getRepository('AppBundle:GenusNote')->findAllOrdered();
 
         return $this->render('Notes/list.html.twig', array(
             'notes' => $notes

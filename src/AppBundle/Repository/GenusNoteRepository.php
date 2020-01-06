@@ -10,5 +10,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class GenusNoteRepository extends EntityRepository
 {
-
+    public function findAllOrdered()
+    {
+        return $this->createQueryBuilder('n')
+            ->addOrderBy('n.updatedAt','DESC')
+            ->getQuery()
+            ->execute();
+    }
 }
