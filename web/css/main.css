@@ -11,3 +11,13 @@ main {
 .actions {
     color: black;
 }
+.text-area {
+    resize: both;
+    max-width: 400px;
+    min-width: 400px;
+    min-height: 75px;
+}
+
+td {
+    vertical-align: middle!important;
+}
