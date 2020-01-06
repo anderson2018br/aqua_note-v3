@@ -39,6 +39,11 @@ class SubFamily
     private $user;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $amountOfGenus = 0;
+
+    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $createdAt;
@@ -157,6 +162,24 @@ class SubFamily
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * @return int
+     * @noinspection PhpUnused
+     */
+    public function getAmountOfGenus()
+    {
+        $this->amountOfGenus = count($this->genus);
+        return $this->amountOfGenus;
+    }
+
+    /**
+     * @noinspection PhpUnused
+     */
+    public function setAmountOfGenus()
+    {
+        $this->amountOfGenus = count($this->genus);
     }
 
 }

@@ -10,7 +10,7 @@ class SubFamilyRepository extends EntityRepository
     public function findAllOrderedBy()
     {
         return $this->createQueryBuilder('s')
-            ->addOrderBy('s.updatedAt', 'DESC')
+            ->addOrderBy('s.amountOfGenus', 'DESC')
             ->getQuery()
             ->execute();
     }
@@ -26,7 +26,9 @@ class SubFamilyRepository extends EntityRepository
             ->setParameter('filter', '%'.$filter.'%')
             ->orWhere('s.description LIKE :filter')
             ->setParameter('filter', '%'.$filter.'%')
-            ->addOrderBy('s.updatedAt','DESC')
+            ->orWhere('s.amountOfGenus LIKE :filter')
+            ->setParameter('filter', '%'.$filter.'%')
+            ->addOrderBy('s.amountOfGenus','DESC')
             ->getQuery()
             ->execute();
     }
@@ -41,7 +43,9 @@ class SubFamilyRepository extends EntityRepository
             ->setParameter('filter', $filter.'%')
             ->orWhere('s.description LIKE :filter')
             ->setParameter('filter', $filter.'%')
-            ->addOrderBy('s.updatedAt','DESC')
+            ->orWhere('s.amountOfGenus LIKE :filter')
+            ->setParameter('filter', $filter.'%')
+            ->addOrderBy('s.amountOfGenus','DESC')
             ->getQuery()
             ->execute();
     }
@@ -56,7 +60,9 @@ class SubFamilyRepository extends EntityRepository
             ->setParameter('filter', '%'.$filter)
             ->orWhere('s.description LIKE :filter')
             ->setParameter('filter', '%'.$filter)
-            ->addOrderBy('s.updatedAt','DESC')
+            ->orWhere('s.amountOfGenus LIKE :filter')
+            ->setParameter('filter', '%'.$filter)
+            ->addOrderBy('s.amountOfGenus','DESC')
             ->getQuery()
             ->execute();
     }
@@ -71,7 +77,9 @@ class SubFamilyRepository extends EntityRepository
             ->setParameter('filter', $filter)
             ->orWhere('s.description LIKE :filter')
             ->setParameter('filter', $filter)
-            ->addOrderBy('s.updatedAt','DESC')
+            ->orWhere('s.amountOfGenus LIKE :filter')
+            ->setParameter('filter', $filter)
+            ->addOrderBy('s.amountOfGenus','DESC')
             ->getQuery()
             ->execute();
     }
@@ -82,7 +90,7 @@ class SubFamilyRepository extends EntityRepository
         return $this->createQueryBuilder('s')
             ->andWhere('s.name LIKE :filter')
             ->setParameter('filter', '%'.$filter.'%')
-            ->addOrderBy('s.updatedAt','DESC')
+            ->addOrderBy('s.amountOfGenus','DESC')
             ->getQuery()
             ->execute();
     }
@@ -92,7 +100,7 @@ class SubFamilyRepository extends EntityRepository
         return $this->createQueryBuilder('s')
             ->andWhere('s.name LIKE :filter')
             ->setParameter('filter', $filter.'%')
-            ->addOrderBy('s.updatedAt','DESC')
+            ->addOrderBy('s.amountOfGenus','DESC')
             ->getQuery()
             ->execute();
     }
@@ -102,7 +110,7 @@ class SubFamilyRepository extends EntityRepository
         return $this->createQueryBuilder('s')
             ->andWhere('s.name LIKE :filter')
             ->setParameter('filter', '%'.$filter)
-            ->addOrderBy('s.updatedAt','DESC')
+            ->addOrderBy('s.amountOfGenus','DESC')
             ->getQuery()
             ->execute();
     }
@@ -112,7 +120,7 @@ class SubFamilyRepository extends EntityRepository
         return $this->createQueryBuilder('s')
             ->andWhere('s.name LIKE :filter')
             ->setParameter('filter', $filter)
-            ->addOrderBy('s.updatedAt','DESC')
+            ->addOrderBy('s.amountOfGenus','DESC')
             ->getQuery()
             ->execute();
     }
@@ -124,7 +132,7 @@ class SubFamilyRepository extends EntityRepository
             ->innerJoin('s.user', 'u', 'WITH', 's.user = u.id')
             ->andWhere('u.username LIKE :filter')
             ->setParameter('filter', '%'.$filter.'%')
-            ->addOrderBy('s.updatedAt', 'DESC')
+            ->addOrderBy('s.amountOfGenus', 'DESC')
             ->getQuery()
             ->execute();
     }
@@ -135,7 +143,7 @@ class SubFamilyRepository extends EntityRepository
             ->innerJoin('s.user', 'u', 'WITH', 's.user = u.id')
             ->andWhere('u.username LIKE :filter')
             ->setParameter('filter', $filter.'%')
-            ->addOrderBy('s.updatedAt','DESC')
+            ->addOrderBy('s.amountOfGenus','DESC')
             ->getQuery()
             ->execute();
     }
@@ -146,7 +154,7 @@ class SubFamilyRepository extends EntityRepository
             ->innerJoin('s.user', 'u', 'WITH', 's.user = u.id')
             ->andWhere('u.username LIKE :filter')
             ->setParameter('filter', '%'.$filter)
-            ->addOrderBy('s.updatedAt', 'DESC')
+            ->addOrderBy('s.amountOfGenus', 'DESC')
             ->getQuery()
             ->execute();
     }
@@ -157,7 +165,7 @@ class SubFamilyRepository extends EntityRepository
             ->innerJoin('s.user', 'u', 'WITH','s.user = u.id')
             ->andWhere('u.username LIKE :filter')
             ->setParameter('filter', $filter)
-            ->addOrderBy('s.updatedAt','DESC')
+            ->addOrderBy('s.amountOfGenus','DESC')
             ->getQuery()
             ->execute();
     }
@@ -168,7 +176,7 @@ class SubFamilyRepository extends EntityRepository
         return $this->createQueryBuilder('s')
             ->andWhere('s.description LIKE :filter')
             ->setParameter('filter','%'.$filter.'%')
-            ->addOrderBy('s.updatedAt','DESC')
+            ->addOrderBy('s.amountOfGenus','DESC')
             ->getQuery()
             ->execute();
     }
@@ -178,7 +186,7 @@ class SubFamilyRepository extends EntityRepository
         return $this->createQueryBuilder('s')
             ->andWhere('s.description LIKE :filter')
             ->setParameter('filter', $filter.'%')
-            ->addOrderBy('s.updatedAt','DESC')
+            ->addOrderBy('s.amountOfGenus','DESC')
             ->getQuery()
             ->execute();
     }
@@ -188,7 +196,7 @@ class SubFamilyRepository extends EntityRepository
         return $this->createQueryBuilder('s')
             ->andWhere('s.description LIKE :filter')
             ->setParameter('filter','%'.$filter)
-            ->addOrderBy('s.updatedAt','DESC')
+            ->addOrderBy('s.amountOfGenus','DESC')
             ->getQuery()
             ->execute();
     }
@@ -198,7 +206,48 @@ class SubFamilyRepository extends EntityRepository
         return $this->createQueryBuilder('s')
             ->andWhere('s.description LIKE :filter')
             ->setParameter('filter',$filter)
-            ->addOrderBy('s.updatedAt','DESC')
+            ->addOrderBy('s.amountOfGenus','DESC')
+            ->getQuery()
+            ->execute();
+    }
+
+    // find all by amount of Genus
+    public function findAllByAmountOfGenusAnywhere($filter)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.amountOfGenus LIKE :filter')
+            ->setParameter('filter', '%'.$filter.'%')
+            ->addOrderBy('s.amountOfGenus', 'DESC')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByAmountOfGenusStartingWith($filter)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.amountOfGenus LIKE :filter')
+            ->setParameter('filter', $filter.'%')
+            ->addOrderBy('s.amountOfGenus','DESC')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByAmountOfGenusEndingWith($filter)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.amountOfGenus LIKE :filter')
+            ->setParameter('filter','%'.$filter)
+            ->addOrderBy('s.amountOfGenus','DESC')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByAmountOfGenusExactWord($filter)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.amountOfGenus LIKE :filter')
+            ->setParameter('filter', $filter)
+            ->addOrderBy('s.amountOfGenus','DESC')
             ->getQuery()
             ->execute();
     }

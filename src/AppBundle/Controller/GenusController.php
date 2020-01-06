@@ -60,20 +60,20 @@ class GenusController extends Controller
         $genus->setUpdatedAt(new DateTime());
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->findAuthenticatedUser($this->container);
         $genus->setUser($user);
-
         $form = $this->createForm(GenusForm::class, $genus);
 
         $form->handleRequest($request);
         if ($form->isValid())
         {
             $genus = $form->getData();
-
+            $subFamily = $genus->getSubFamily();
             $em = $this->getDoctrine()->getManager();
             $em->persist($genus);
+            $subFamily->setAmountOfGenus();
+            $em->persist($subFamily);
             $em->flush();
 
             $this->addFlash('success', sprintf('Genus Created'));
-
             return $this->redirectToRoute('genus_list');
         }
 
@@ -162,6 +162,7 @@ class GenusController extends Controller
     {
         $genus = $this->getDoctrine()->getRepository('AppBundle:Genus')->find($id);
         $this->checkAuthorization($genus, "You are not allowed to delete this genus");
+        $subFamily = $genus->getSubFamily();
         $em = $this->getDoctrine()->getManager();
         foreach ($genus->getNote() as $note)
         {
@@ -169,6 +170,9 @@ class GenusController extends Controller
         }
 
         $em->remove($genus);
+        $em->flush();
+        $subFamily->setAmountOfGenus();
+        $em->persist($subFamily);
         $em->flush();
 
         $this->addFlash('danger', sprintf("Genus Deleted"));
@@ -305,4 +309,6 @@ class GenusController extends Controller
     {
         return $this->redirectToRoute('genus_list');
     }
+
+
 }

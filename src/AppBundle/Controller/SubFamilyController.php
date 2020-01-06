@@ -89,7 +89,7 @@ class SubFamilyController extends Controller
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->findAuthenticatedUser($this->container);
         return $this->render('SubFamily/show.html.twig', array(
             'subFamily' => $subFamily,
-            'user'      => $user
+            'user'      => $user,
         ));
     }
 
@@ -147,7 +147,8 @@ class SubFamilyController extends Controller
 
         foreach ($subFamily->getGenus() as $genus)
         {
-                foreach ($genus->getNote() as $note)
+            /** @noinspection PhpUndefinedMethodInspection */
+            foreach ($genus->getNote() as $note)
                 {
                     $em->remove($note);
                 }
@@ -226,6 +227,20 @@ class SubFamilyController extends Controller
                 case 4: $subFamily = $this->getDoctrine()->getRepository('AppBundle:SubFamily')->findAllByDescriptionExactWord($filter); break;
             }
         }
+        else if ($choice == 5)
+        {
+            switch ($how)
+            {
+                case 1: $subFamily = $this->getDoctrine()->getRepository('AppBundle:SubFamily')->findAllByAmountOfGenusAnywhere($filter); break;
+
+                case 2: $subFamily = $this->getDoctrine()->getRepository('AppBundle:SubFamily')->findAllByAmountOfGenusStartingWith($filter); break;
+
+                case 3: $subFamily = $this->getDoctrine()->getRepository('AppBundle:SubFamily')->findAllByAmountOfGenusEndingWith($filter); break;
+
+                case 4: $subFamily = $this->getDoctrine()->getRepository('AppBundle:SubFamily')->findAllByAmountOfGenusExactWord($filter); break;
+            }
+        }
+
         return $subFamily;
     }
 
@@ -235,6 +250,27 @@ class SubFamilyController extends Controller
      */
     public function indexAction()
     {
+        return $this->redirectToRoute('subfamily_list');
+    }
+
+    /**
+     * @Route("/subFamily/update/genus/count/amount", name="genus_count")
+     * @noinspection PhpUnused
+     */
+    public function updateGenusCount()
+    {
+        $subFamilies = $this->getDoctrine()->getRepository('AppBundle:SubFamily')->findAll();
+
+        $em = $this->getDoctrine()->getManager();
+
+        foreach ($subFamilies as $subFamily)
+        {
+            $subFamily->setAmountOfGenus();
+            $em->persist($subFamily);
+        }
+
+        $em->flush();
+
         return $this->redirectToRoute('subfamily_list');
     }
 }
