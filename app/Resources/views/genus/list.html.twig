@@ -29,14 +29,19 @@
                 <option value="4">User</option>
             {% endif %}
             {% if choice == 5 %}
-                <option value="5" selected>Amount of Genus</option>
+                <option value="5" selected>Amount of Species</option>
             {% else %}
-                <option value="5">Amount of Genus</option>
+                <option value="5">Amount of Species</option>
             {% endif %}
             {% if choice == 6 %}
                 <option value="6" selected>Discovered At</option>
             {% else %}
                 <option value="6">Discovered At</option>
+            {% endif %}
+            {% if choice == 7 %}
+                <option value="7" selected>Amount of Notes</option>
+            {% else %}
+                <option value="7">Amount of Notes</option>
             {% endif %}
         </select>
     </label>
@@ -79,6 +84,7 @@
                 <th>Created By</th>
                 <th>Amount of species</th>
                 <th>Discovered At</th>
+                <th>Amount of notes</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -90,6 +96,7 @@
                 <td>{{ genus.user.username }}</td>
                 <td>{{ genus.speciesCount }}</td>
                 <td>{{ genus.firstDiscoveredAt | date('Y-m-d') }}</td>
+                <td>{{ genus.amountOfNotes }}</td>
                 <td>
                     <a href="{{ path('genus_show', {'id': genus.id}) }}"><span class="fa fa-eye actions">&nbsp;</span></a>
                     {% if is_granted('ROLE_USER') %}
@@ -104,6 +111,10 @@
         </tbody>
     </table>
 
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('genus_notes_amount') }}">Update Amount of Notes</a>
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}

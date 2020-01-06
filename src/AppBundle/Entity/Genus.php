@@ -60,6 +60,11 @@ class Genus
     private $funFact;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $amountOfNotes = 0;
+
+    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $createdAt;
@@ -246,6 +251,24 @@ class Genus
     public function getNote()
     {
         return $this->note;
+    }
+
+    /**
+     * @return int
+     * @noinspection PhpUnused
+     */
+    public function getAmountOfNotes()
+    {
+        $this->amountOfNotes = count($this->note);
+        return $this->amountOfNotes;
+    }
+
+    /**
+     * @noinspection PhpUnused
+     */
+    public function setAmountOfNotes()
+    {
+        $this->amountOfNotes = count($this->note);
     }
 
 

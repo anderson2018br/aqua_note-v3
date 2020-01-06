@@ -31,6 +31,8 @@ class GenusRepository extends EntityRepository
             ->setParameter('filter', '%'.$filter.'%')
             ->orWhere('g.firstDiscoveredAt LIKE :filter')
             ->setParameter('filter', '%'.$filter.'%')
+            ->orWhere('g.amountOfNotes LIKE :filter')
+            ->setParameter('filter', '%'.$filter.'%')
             ->addOrderBy('g.updatedAt', 'DESC')
             ->getQuery()
             ->execute();
@@ -50,6 +52,8 @@ class GenusRepository extends EntityRepository
             ->orWhere('g.speciesCount LIKE :filter')
             ->setParameter('filter', $filter.'%')
             ->orWhere('g.firstDiscoveredAt LIKE :filter')
+            ->setParameter('filter', $filter.'%')
+            ->orWhere('g.amountOfNotes LIKE :filter')
             ->setParameter('filter', $filter.'%')
             ->addOrderBy('g.updatedAt', 'DESC')
             ->getQuery()
@@ -71,6 +75,8 @@ class GenusRepository extends EntityRepository
             ->setParameter('filter', '%'.$filter)
             ->orWhere('g.firstDiscoveredAt LIKE :filter')
             ->setParameter('filter', '%'.$filter)
+            ->orWhere('g.amountOfNotes LIKE :filter')
+            ->setParameter('filter', '%'.$filter)
             ->addOrderBy('g.updatedAt', 'DESC')
             ->getQuery()
             ->execute();
@@ -90,6 +96,8 @@ class GenusRepository extends EntityRepository
             ->orWhere('g.speciesCount LIKE :filter')
             ->setParameter('filter', $filter)
             ->orWhere('g.firstDiscoveredAt LIKE :filter')
+            ->setParameter('filter', $filter)
+            ->orWhere('g.amountOfNotes LIKE :filter')
             ->setParameter('filter', $filter)
             ->addOrderBy('g.updatedAt', 'DESC')
             ->getQuery()
@@ -304,6 +312,43 @@ class GenusRepository extends EntityRepository
             ->andWhere('g.firstDiscoveredAt LIKE :filter')
             ->setParameter('filter', $filter)
             ->addOrderBy('g.updatedAt', 'DESC')
+            ->getQuery()
+            ->execute();
+    }
+
+    // find all by amount of notes
+    public function findAllByAmountOfNotesAnywhere($filter)
+    {
+        return $this->createQueryBuilder('g')
+            ->andWhere('g.amountOfNotes LIKE :filter')
+            ->setParameter('filter', '%'.$filter.'%')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByAmountOfNotesStartingWith($filter)
+    {
+        return $this->createQueryBuilder('g')
+            ->andWhere('g.amountOfNotes LIKE :filter')
+            ->setParameter('filter', $filter.'%')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByAmountOfNotesEndingWith($filter)
+    {
+        return $this->createQueryBuilder('g')
+            ->andWhere('g.amountOfNotes LIKE :filter')
+            ->setParameter('filter', '%'.$filter)
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByAmountOfNotesExactWord($filter)
+    {
+        return $this->createQueryBuilder('g')
+            ->andWhere('g.amountOfNotes LIKE :filter')
+            ->setParameter('filter', $filter)
             ->getQuery()
             ->execute();
     }
