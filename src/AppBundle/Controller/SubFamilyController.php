@@ -163,16 +163,6 @@ class SubFamilyController extends Controller
         return $this->redirectToRoute('subfamily_list');
     }
 
-
-    public function checkAuthorization(SubFamily $subFamily, $message)
-    {
-        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findAuthenticatedUser($this->container);
-        if ($user->getUsername() != $subFamily->getUser()->getUsername() && !in_array('ROLE_ADMIN',$user->getRoles()))
-        {
-            throw $this->createAccessDeniedException($message);
-        }
-    }
-
     public function getFilterResults($subFamily, $filter, $choice, $how)
     {
         if ($choice == 1)
@@ -256,11 +246,11 @@ class SubFamilyController extends Controller
     /**
      * @Route("/subFamily/update/genus/count/amount", name="genus_count")
      * @noinspection PhpUnused
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function updateGenusCount()
     {
         $subFamilies = $this->getDoctrine()->getRepository('AppBundle:SubFamily')->findAll();
-
         $em = $this->getDoctrine()->getManager();
 
         foreach ($subFamilies as $subFamily)
@@ -273,4 +263,14 @@ class SubFamilyController extends Controller
 
         return $this->redirectToRoute('subfamily_list');
     }
+
+    public function checkAuthorization(SubFamily $subFamily, $message)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findAuthenticatedUser($this->container);
+        if ($user->getUsername() != $subFamily->getUser()->getUsername() && !in_array('ROLE_ADMIN',$user->getRoles()))
+        {
+            throw $this->createAccessDeniedException($message);
+        }
+    }
+
 }
