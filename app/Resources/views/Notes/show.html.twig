@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center" style="margin-bottom: 20px;">Note from genus {{ note.genus.name }}</h1>
+                <table class="table table-borderless" style="margin-left: 30%;">
+                    <tr>
+                        <th>Genus:</th>
+                        <td>{{ note.genus.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Created By:</th>
+                        <td>{{ note.user.username }}</td>
+                    </tr>
+                    <tr>
+                        <th>Note</th>
+                        <td><label>
+                                <textarea class="form-control text-area" readonly style="border: none; color: black; background-color: #FFFFFF;">{{ note.note }}</textarea>
+                            </label></td>
+                    </tr>
+                    <tr>
+                        <th>Created At</th>
+                        <td>{{ note.createdAt | date('M d Y')}}</td>
+                    </tr>
+                    <tr>
+                        <th>Updated At:</th>
+                        <td>{{ note.updatedAt | date('M d Y') }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

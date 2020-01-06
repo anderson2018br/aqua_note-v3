@@ -90,6 +90,22 @@ class GenusNoteController extends Controller
     }
 
     /**
+     * @noinspection PhpUnused
+     * @Route("/show/{id}", name="note_show")
+     * @param $id
+     * @Security("is_granted('ROLE_ADMIN')")
+     * @return Response
+     */
+    public function showAction($id)
+    {
+        $note = $this->getDoctrine()->getRepository('AppBundle:GenusNote')->find($id);
+
+        return $this->render('Notes/show.html.twig', array(
+            'note' => $note,
+        ));
+    }
+
+    /**
      * @param $notes
      * @param $filter
      * @param $choice
