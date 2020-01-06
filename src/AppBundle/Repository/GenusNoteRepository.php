@@ -82,4 +82,123 @@ class GenusNoteRepository extends EntityRepository
             ->getQuery()
             ->execute();
     }
+
+    // find by genus
+    public function findAllByGenusAnywhere($filter)
+    {
+        return $this->createQueryBuilder('n')
+            ->innerJoin('n.genus', 'g', 'WITH', 'n.genus = g.id')
+            ->andWhere('g.name LIKE :filter')
+            ->setParameter('filter', '%'.$filter.'%')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByGenusStartingWith($filter)
+    {
+        return $this->createQueryBuilder('n')
+            ->innerJoin('n.genus', 'g', 'WITH', 'n.genus = g.id')
+            ->andWhere('g.name LIKE :filter')
+            ->setParameter('filter', $filter.'%')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByGenusEndingWith($filter)
+    {
+        return $this->createQueryBuilder('n')
+            ->innerJoin('n.genus', 'g', 'WITH', 'n.genus = g.id')
+            ->andWhere('g.name LIKE :filter')
+            ->setParameter('filter', '%'.$filter)
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByGenusExactWord($filter)
+    {
+        return $this->createQueryBuilder('n')
+            ->innerJoin('n.genus', 'g', 'WITH', 'n.genus = g.id')
+            ->andWhere('g.name LIKE :filter')
+            ->setParameter('filter', $filter)
+            ->getQuery()
+            ->execute();
+    }
+
+    // find by user
+    public function findAllByUserAnywhere($filter)
+    {
+        return $this->createQueryBuilder('n')
+            ->innerJoin('n.user', 'u', 'WITH', 'n.user = u.id')
+            ->andWhere('u.username LIKE :filter')
+            ->setParameter('filter', '%'.$filter.'%')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByUserStartingWith($filter)
+    {
+        return $this->createQueryBuilder('n')
+            ->innerJoin('n.user', 'u', 'WITH', 'n.user = u.id')
+            ->andWhere('u.username LIKE :filter')
+            ->setParameter('filter', $filter.'%')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByUserEndingWith($filter)
+    {
+        return $this->createQueryBuilder('n')
+            ->innerJoin('n.user', 'u', 'WITH', 'n.user = u.id')
+            ->andWhere('u.username LIKE :filter')
+            ->setParameter('filter', '%'.$filter)
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByUserExactWord($filter)
+    {
+        return $this->createQueryBuilder('n')
+            ->innerJoin('n.user', 'u', 'WITH', 'n.user = u.id')
+            ->andWhere('u.username LIKE :filter')
+            ->setParameter('filter', $filter)
+            ->getQuery()
+            ->execute();
+    }
+
+    // find by note
+    public function findAllByNoteAnywhere($filter)
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.note LIKE :filter')
+            ->setParameter('filter', '%'.$filter.'%')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByNoteStartingWith($filter)
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.note LIKE :filter')
+            ->setParameter('filter', $filter.'%')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByNoteEndingWith($filter)
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.note LIKE :filter')
+            ->setParameter('filter', '%'.$filter)
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findAllByNoteExactWord($filter)
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.note LIKE :filter')
+            ->setParameter('filter', $filter)
+            ->getQuery()
+            ->execute();
+    }
 }
