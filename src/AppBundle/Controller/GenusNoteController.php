@@ -19,6 +19,7 @@ class GenusNoteController extends Controller
      */
     public function listAction()
     {
+        $this->checkNonObjectAuthorization();
         $notes = $this->getDoctrine()->getRepository('AppBundle:GenusNote')->findAllOrdered();
 
         return $this->render('Notes/list.html.twig', array(
@@ -33,5 +34,15 @@ class GenusNoteController extends Controller
     public function indexAction()
     {
         return $this->redirectToRoute('notes_list');
+    }
+
+    public function checkNonObjectAuthorization()
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findAuthenticatedUser($this->container);
+
+        if (!in_array('ROLE_ADMIN', $user->getRoles()))
+        {
+            throw $this->createAccessDeniedException("You are not allowed to access this page");
+        }
     }
 }
