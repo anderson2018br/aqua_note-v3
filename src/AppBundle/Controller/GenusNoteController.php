@@ -2,8 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\GenusNote;
+use AppBundle\Form\GenusNoteForm;
+use DateTime;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -48,10 +53,40 @@ class GenusNoteController extends Controller
      * @noinspection PhpUnused
      * @Route("/new", name="note_new")
      * @Security("is_granted('ROLE_ADMIN')")
+     * @return RedirectResponse|Response
+     * @throws Exception
      */
     public function newAction(Request $request)
     {
         $this->checkNonObjectAuthorization();
+
+        $note = new GenusNote();
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findAuthenticatedUser($this->container);
+
+        $note->setUser($user);
+        $note->setCreatedAt(new DateTime());
+        $note->setUpdatedAt(new DateTime());
+
+        $form = $this->createForm(GenusNoteForm::class, $note);
+        $form->handleRequest($request);
+
+        if ($form->isValid())
+        {
+            $notes = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($notes);
+            $em->flush();
+
+            $this->addFlash('success',sprintf('Note Created!'));
+
+            return $this->redirectToRoute('notes_list');
+        }
+
+        return $this->render('Notes/new.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 
     /**
