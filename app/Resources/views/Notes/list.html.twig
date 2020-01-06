@@ -1,3 +1,4 @@
+{% if is_granted('ROLE_ADMIN') %}
 {% extends 'base.html.twig' %}
 
 {% block body %}
@@ -56,6 +57,7 @@
         </label>
         <a href="{{ path('notes_list') }}" class="btn btn-primary" id="search-button">Search</a>
         <a href="{{ path('notes_list') }}">Clear Filters</a>
+        <a href="#" class="btn btn-new btn-primary">New</a>
     </div>
 <table class="table table-borderless" id="notes-table">
     <thead>
@@ -104,3 +106,4 @@
         })
     </script>
 {% endblock %}
+{% endif %}

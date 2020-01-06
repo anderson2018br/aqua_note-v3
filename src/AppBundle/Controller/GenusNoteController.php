@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package AppBundle\Controller
  * @Route("/notes")
  * @noinspection PhpUnused
+ * @Security("is_granted('ROLE_ADMIN')")
  */
 class GenusNoteController extends Controller
 {
@@ -20,6 +22,7 @@ class GenusNoteController extends Controller
      * @noinspection PhpUnused
      * @param Request $request
      * @return Response
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function listAction(Request $request)
     {
@@ -38,6 +41,17 @@ class GenusNoteController extends Controller
             'choice' => $choice,
             'how'   => $how,
         ));
+    }
+
+    /**
+     * @param Request $request
+     * @noinspection PhpUnused
+     * @Route("/new", name="note_new")
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function newAction(Request $request)
+    {
+        $this->checkNonObjectAuthorization();
     }
 
     /**
@@ -108,6 +122,7 @@ class GenusNoteController extends Controller
     /**
      * @Route("/")
      * @noinspection PhpUnused
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function indexAction()
     {
