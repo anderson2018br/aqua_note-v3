@@ -3,6 +3,8 @@
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -16,14 +18,23 @@ class GenusNoteController extends Controller
     /**
      * @Route("/list", name="notes_list")
      * @noinspection PhpUnused
+     * @param Request $request
+     * @return Response
      */
-    public function listAction()
+    public function listAction(Request $request)
     {
         $this->checkNonObjectAuthorization();
         $notes = $this->getDoctrine()->getRepository('AppBundle:GenusNote')->findAllOrdered();
 
+        $filter = $request->query->get('filter');
+        $choice = $request->query->get('choice');
+        $how    = $request->query->get('how');
+
         return $this->render('Notes/list.html.twig', array(
-            'notes' => $notes
+            'notes' => $notes,
+            'filter' => $filter,
+            'choice' => $choice,
+            'how'   => $how,
         ));
     }
 
