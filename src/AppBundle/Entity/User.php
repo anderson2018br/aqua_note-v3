@@ -40,6 +40,21 @@ class User implements UserInterface
     private $plainPassword;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $amountOfGenus = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $amountOfSubFamilies = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $amountOfNotes = 0;
+
+    /**
      * @ORM\Column(type="json_array")
      */
     private $roles = [];
@@ -238,6 +253,60 @@ class User implements UserInterface
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return int
+     * @noinspection PhpUnused
+     */
+    public function getAmountOfGenus()
+    {
+        $this->amountOfGenus = count($this->genus);
+        return $this->amountOfGenus;
+    }
+
+    /**
+     * @noinspection PhpUnused
+     */
+    public function setAmountOfGenus()
+    {
+        $this->amountOfGenus = count($this->genus);
+    }
+
+    /**
+     * @return int
+     * @noinspection PhpUnused
+     */
+    public function getAmountOfSubFamilies()
+    {
+        $this->amountOfSubFamilies = count($this->subFamily);
+        return $this->amountOfSubFamilies;
+    }
+
+    /**
+     * @noinspection PhpUnused
+     */
+    public function setAmountOfSubFamilies()
+    {
+        $this->amountOfSubFamilies = count($this->subFamily);
+    }
+
+    /**
+     * @return int
+     * @noinspection PhpUnused
+     */
+    public function getAmountOfNotes()
+    {
+        $this->amountOfNotes = count($this->note);
+        return $this->amountOfNotes;
+    }
+
+    /**
+     * @noinspection PhpUnused
+     */
+    public function setAmountOfNotes()
+    {
+        $this->amountOfNotes = count($this->note);
     }
 
     public function __toString()

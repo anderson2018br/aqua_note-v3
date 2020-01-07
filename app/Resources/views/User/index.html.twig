@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="text-center">Users</h1>
+    <table class="table table-borderless" id="user-table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Amount of Genus</th>
+                <th>Amount of SubFamilies</th>
+                <th>Amount of Notes</th>
+                <th>Avatar File Name</th>
+                <th>Roles</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ user.avatarFileName }}</td>
+                <td>{% for role in user.roles %}
+                        {{ role }}
+                    {% endfor %}
+                </td>
+                <td></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#user-table').DataTable({
+            info: false,
+            searching: false,
+            pageLength: 5,
+            lengthChange: false,
+            aaSorting: []
+        });
+    </script>
+{% endblock %}

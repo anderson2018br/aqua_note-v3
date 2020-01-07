@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,14 +21,15 @@ class UserController extends Controller
      * @noinspection PhpUnused
      * @Route("/list", name="user_list")
      * @Security("is_granted('ROLE_ADMIN')")
+     * @return Response
      */
     public function listAction(Request $request)
     {
         $this->get('app.check_authorization')->checkNonObjectAuthorization();
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
 
-        $this->render('User/index.html.twig', array(
-            'user' => $user
+        return $this->render('User/index.html.twig', array(
+            'users' => $user
         ));
     }
 }
