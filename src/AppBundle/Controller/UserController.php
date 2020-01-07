@@ -35,7 +35,10 @@ class UserController extends Controller
         $user = $this->getFilterResults($user, $filter, $choice, $how);
 
         return $this->render('User/index.html.twig', array(
-            'users' => $user
+            'users' => $user,
+            'filter' => $filter,
+            'choice' => $choice,
+            'how' => $how,
         ));
     }
 
@@ -45,7 +48,13 @@ class UserController extends Controller
         {
             switch ($how)
             {
-                case 1: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByQueryAnywhere($filter);
+                case 1: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByQueryAnywhere($filter); break;
+
+                case 2: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByQueryStartingWith($filter); break;
+
+                case 3: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByQueryEndingWith($filter); break;
+
+                case 4: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByQueryExactWord($filter); break;
             }
         }
 

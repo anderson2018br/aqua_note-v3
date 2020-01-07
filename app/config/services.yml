@@ -14,6 +14,7 @@ services:
     app.check_authorization:
         class: AppBundle\Services\CheckAuthorization
         autowire: true
+        public: true
 
     app.update_amount:
         class: AppBundle\Services\UpdateUserAmount
