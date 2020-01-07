@@ -69,6 +69,7 @@ class UserController extends Controller
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
         $em = $this->getDoctrine()->getManager();
         foreach ($user->getGenus() as $genus) {
+            /** @noinspection PhpUndefinedMethodInspection */
             foreach ($genus->getNote() as $note)
             {
                 $em->remove($note);
@@ -82,6 +83,56 @@ class UserController extends Controller
         $this->addFlash('success','All genus Deleted');
 
         return $this->redirectToRoute('user_list');
+    }
+
+    /**
+     * @Route("/subFamily/{id}/show", name="user_subFamily_show")
+     * @noinspection PhpUnused
+     * @param $id
+     * @return Response
+     */
+    public function showSubFamilyAction($id)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        return $this->render('User/showSubFamilies.html.twig', array(
+           'user' => $user
+        ));
+    }
+
+
+    /**
+     * @param $id
+     * @Route("/subFamily/{id}/delete", name="user_delete_subFamilies")
+     * @noinspection PhpUnused
+     * @return RedirectResponse
+     */
+    public function deleteAllSubFamiliesAction($id)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+        foreach ($user->getSubFamily() as $subFamily)
+        {
+            /** @noinspection PhpUndefinedMethodInspection */
+            foreach ($subFamily->getGenus() as $genus)
+            {
+                /** @noinspection PhpUndefinedMethodInspection */
+                foreach ($genus->getNote() as $note)
+                {
+                    $em->remove($note);
+                }
+                $em->remove($genus);
+            }
+
+            $em->remove($subFamily);
+        }
+
+        $em->flush();
+
+        $this->addFlash('success','All SubFamilies Deleted');
+
+        return $this->redirectToRoute('user_subFamily_show',array('id' => $id));
     }
 
     public function getFilterResults($users, $filter, $choice, $how)

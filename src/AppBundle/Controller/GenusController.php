@@ -76,7 +76,8 @@ class GenusController extends Controller
 
         return $this->render('genus/new.html.twig', array(
             'form' => $form->createView(),
-            'url' => $this->generateUrl('genus_list')
+            'url' => $this->generateUrl('genus_list'),
+            'correctUrl' => ''
         ));
     }
 
@@ -140,7 +141,7 @@ class GenusController extends Controller
             $this->get('app.update_amount')->updateEverything();
             $this->addFlash('success', sprintf('Genus Updated'));
 
-            return $this->redirect($url);
+            return $this->redirectToRoute('genus_list');
         }
         return $this->render('genus/edit.html.twig', array(
             'genus' => $genus,

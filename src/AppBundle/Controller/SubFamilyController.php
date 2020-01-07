@@ -77,7 +77,8 @@ class SubFamilyController extends Controller
 
         return $this->render('SubFamily/new.html.twig',array(
             'form' => $form->createView(),
-            'url' => $url
+            'url' => $url,
+            'correctUrl' => ''
         ));
     }
     /**
@@ -129,7 +130,7 @@ class SubFamilyController extends Controller
 
             $this->addFlash('success',sprintf('SubFamily updated!'));
 
-            return $this->redirect($url);
+            return $this->redirectToRoute('subfamily_list');
         }
 
         return $this->render('SubFamily/edit.html.twig', array(

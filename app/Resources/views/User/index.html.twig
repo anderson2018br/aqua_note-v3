@@ -105,7 +105,7 @@
                     {% if user.amountOfSubFamilies == 0 %}
                         {{ user.amountOfSubFamilies }}
                     {% else %}
-                        <a href="#" class="actions">{{ user.amountOfSubFamilies }}</a>
+                        <a href="{{ path('user_subFamily_show', {'id': user.id}) }}" class="actions">{{ user.amountOfSubFamilies }}</a>
                     {% endif %}
                 </td>
                 <td>

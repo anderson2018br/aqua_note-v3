@@ -1,9 +1,79 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
+ <div class="container">
+  <div class="row">
+   <div class="col-12">
+     <h1 class="text-center">Show SubFamilies from user {{ user.username }}</h1>
+    <table class="table table-striped display" style="text-align: center;" id="user_family-table">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Delete</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for subFamily in user.subFamily %}
+            <tr>
+                <td>
+                    <a href="{{ path('show_family', {'id': subFamily.id}) }}" class="actions">{{ subFamily.name }}</a>
+                </td>
+                <td>
+                    <a href="{{ path('family_delete', {'id': subFamily.id}) }}" class="actions delete-genus">Delete</a>
+                </td>
+                <td>
+                    <a href="{{ path('family_edit', {'id': subFamily.id}) }}" class="actions">Edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+       <a href="{{ path('user_list') }}" class="btn btn-dark">Back</a>
+       <a href="{{ path('user_delete_subFamilies', {'id': user.id}) }}" class="btn btn-danger delete-genus">Delete All</a>
+   </div>
+  </div>
+ </div>
 {% endblock %}
 
 {% block javascripts %}
  {{ parent() }}
+    <script>
+         $('#user_family-table').DataTable({
+          searching: false,
+          info: false,
+          pageLength: 10,
+          lengthChange: false,
+          aaSorting: false
+         });
+    </script>
+ <script>
+       $('.delete-genus').on('click',function (e) {
+           let link = $(this).attr('href');
+           e.preventDefault();
+           $.confirm({
+               title: 'Delete SubFamily',
+               content: 'Are you sure you want to delete this SubFamily all genus and notes related to this subFamily will deleted as well',
+               buttons: {
+                   Confirm: {
+                       text: 'Delete SubFamily',
+                       btnClass: 'btn btn-primary',
+                       keys: ['shift'],
+                       action: function () {
+                           location.href = link;
+                       },
+                   },
+
+                   Cancel: {
+                       text: 'Cancel',
+                       btnClass: 'btn btn-light',
+                       keys: ['enter'],
+                       action: function () {
+
+                       }
+                   }
+               }
+           });
+       });
+ </script>
 {% endblock %}
