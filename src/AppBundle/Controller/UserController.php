@@ -41,6 +41,14 @@ class UserController extends Controller
 
     public function getFilterResults($users, $filter, $choice, $how)
     {
+        if ($choice == 1)
+        {
+            switch ($how)
+            {
+                case 1: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByQueryAnywhere($filter);
+            }
+        }
+
         return $users;
     }
 }

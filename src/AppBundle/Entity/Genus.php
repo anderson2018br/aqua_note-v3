@@ -268,7 +268,10 @@ class Genus
      */
     public function setAmountOfNotes()
     {
-        $this->amountOfNotes = count($this->note);
+        if ($this->note)
+        {
+            $this->amountOfNotes = count($this->note);
+        }
     }
 
     public function __toString()
