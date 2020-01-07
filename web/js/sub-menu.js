@@ -22,6 +22,14 @@ $('.notes').mouseleave(function () {
     $('menu').removeClass('side-menu-logo');
     $('.notes').removeClass('sub-menu-activate');
 });
+$('.user').mouseenter(function () {
+    $('menu').addClass('side-menu-logo');
+    $('.user').addClass('sub-menu-activate');
+});
+$('.user').mouseleave(function () {
+    $('menu').removeClass('side-menu-logo');
+    $('.user').removeClass('sub-menu-activate');
+});
 
 $('#side-menu-genus').mouseenter(function () {
     $('.genus').addClass('sub-menu-activate');
@@ -40,4 +48,10 @@ $('#side-menu-notes').mouseenter(function () {
 });
 $('#side-menu-notes').mouseleave(function () {
     $('.notes').removeClass('sub-menu-activate');
+});
+$('#side-menu-user').mouseenter(function () {
+    $('.user').addClass('sub-menu-activate');
+});
+$('#side-menu-user').mouseleave(function () {
+    $('.user').removeClass('sub-menu-activate');
 });
