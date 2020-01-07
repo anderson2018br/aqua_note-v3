@@ -181,13 +181,17 @@ class UserController extends Controller
 
     /**
      * @param $id
-     * @Route("/total/{id}/show", name="user_show_total")
      * @noinspection PhpUnused
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Route("/{id}/show", name="user_show")
+     * @return Response
      */
-    public function showTotalAction($id)
+    public function showAction($id)
     {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
 
+        return $this->render('User/show.html.twig', array(
+            'user' => $user
+        ));
     }
 
     public function getFilterResults($users, $filter, $choice, $how)

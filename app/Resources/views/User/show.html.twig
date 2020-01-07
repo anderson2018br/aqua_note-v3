@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center">User {{ user.username }}</h1>
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <th>Username:</th>
+                            <td>{{ user.username }}</td>
+                        </tr>
+                    <tr>
+                        <th>Amount Of Genus:</th>
+                        <td>
+                            <a class="actions" href="{{ path('user_genus_show',{'id': user.id}) }}">{{ user.amountOfGenus }}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Amount of SubFamilies:</th>
+                        <td>
+                            <a class="actions" href="{{ path('user_subFamily_show',{'id': user.id}) }}">{{ user.amountOfSubFamilies }}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Amount of Notes:</th>
+                        <td>
+                            <a class="actions" href="{{ path('user_show_notes', {'id': user.id}) }}">{{ user.amountOfNotes }}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Total Creations:</th>
+                        <td>{{ user.totalAmountOfCreatedObjects }}</td>
+                    </tr>
+                    <tr>
+                        <th>File Name:</th>
+                        <td>{{ user.avatarFileName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Roles:</th>
+                        <td>
+                            {% for role in user.roles %}
+                                {{ role }}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Created At:</th>
+                        <td>{{ user.createdAt | date('M d Y')}}</td>
+                    </tr>
+                    <tr>
+                        <th>Updated At:</th>
+                        <td>{{ user.updatedAt | date('M d Y') }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
