@@ -31,9 +31,8 @@ class GenusNoteController extends Controller
      */
     public function listAction(Request $request)
     {
-        $this->checkNonObjectAuthorization();
+        $this->get('app.check_authorization')->checkNonObjectAuthorization();
         $notes = $this->getDoctrine()->getRepository('AppBundle:GenusNote')->findAllOrdered();
-
         $filter = $request->query->get('filter');
         $choice = $request->query->get('choice');
         $how    = $request->query->get('how');
@@ -58,8 +57,7 @@ class GenusNoteController extends Controller
      */
     public function newAction(Request $request)
     {
-        $this->checkNonObjectAuthorization();
-
+        $this->get('app.check_authorization')->checkNonObjectAuthorization();
         $note = new GenusNote();
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->findAuthenticatedUser($this->container);
 
@@ -102,7 +100,7 @@ class GenusNoteController extends Controller
      */
     public function showAction($id)
     {
-        $this->checkNonObjectAuthorization();
+        $this->get('app.check_authorization')->checkNonObjectAuthorization();
         $note = $this->getDoctrine()->getRepository('AppBundle:GenusNote')->find($id);
 
         return $this->render('Notes/show.html.twig', array(
@@ -121,7 +119,7 @@ class GenusNoteController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        $this->checkNonObjectAuthorization();
+        $this->get('app.check_authorization')->checkNonObjectAuthorization();
         $note = $this->getDoctrine()->getRepository('AppBundle:GenusNote')->find($id);
         $note->setUpdatedAt(new DateTime());
 
@@ -159,7 +157,7 @@ class GenusNoteController extends Controller
      */
     public function deleteAction($id)
     {
-        $this->checkNonObjectAuthorization();
+        $this->get('app.check_authorization')->checkNonObjectAuthorization();
         $note = $this->getDoctrine()->getRepository('AppBundle:GenusNote')->find($id);
         $genus = $note->getGenus();
 
@@ -249,15 +247,5 @@ class GenusNoteController extends Controller
     public function indexAction()
     {
         return $this->redirectToRoute('notes_list');
-    }
-
-    public function checkNonObjectAuthorization()
-    {
-        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findAuthenticatedUser($this->container);
-
-        if (!in_array('ROLE_ADMIN', $user->getRoles()))
-        {
-            throw $this->createAccessDeniedException("You are not allowed to access this page");
-        }
     }
 }

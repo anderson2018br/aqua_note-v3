@@ -134,7 +134,7 @@ class GenusController extends Controller
     public function editAction(Request $request, $id)
     {
         $genus = $this->getDoctrine()->getRepository('AppBundle:Genus')->find($id);
-        $this->checkAuthorization($genus, "You are not allowed to edit this genus");
+        $this->get('app.check_authorization')->checkAuthorization($genus, "You are not allowed to edit this genus");
         $genus->setUpdatedAt(new DateTime());
         $form = $this->createForm(GenusForm::class, $genus);
         $form->handleRequest($request);
@@ -169,7 +169,7 @@ class GenusController extends Controller
     public function deleteAction($id)
     {
         $genus = $this->getDoctrine()->getRepository('AppBundle:Genus')->find($id);
-        $this->checkAuthorization($genus, "You are not allowed to delete this genus");
+        $this->get('app.check_authorization')->checkAuthorization($genus, "You are not allowed to delete this genus");
         $subFamily = $genus->getSubFamily();
         $em = $this->getDoctrine()->getManager();
         foreach ($genus->getNote() as $note)
@@ -187,15 +187,6 @@ class GenusController extends Controller
         $this->addFlash('danger', sprintf("Genus Deleted"));
 
         return $this->redirectToRoute('genus_list');
-    }
-
-    public function checkAuthorization(Genus $genus, $message)
-    {
-        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findAuthenticatedUser($this->container);
-        if (($genus->getUser()->getUsername() != $user->getUsername()) && !in_array('ROLE_ADMIN', $user->getRoles()))
-        {
-            throw $this->createAccessDeniedException($message);
-        }
     }
 
     /**

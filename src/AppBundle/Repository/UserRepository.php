@@ -11,7 +11,6 @@ class UserRepository extends EntityRepository
     {
         $token = $controller->get('security.token_storage')->getToken();
         $authenticatedUser = $token->getUsername();
-
         return $this->findOneBy(['username' => $authenticatedUser]);
     }
 }

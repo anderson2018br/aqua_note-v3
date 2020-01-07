@@ -105,7 +105,7 @@ class SubFamilyController extends Controller
     public function editAction(Request $request, $id)
     {
         $subFamily = $this->getDoctrine()->getRepository('AppBundle:SubFamily')->find($id);
-        $this->checkAuthorization($subFamily, "You are not allowed to edit this subFamily");
+        $this->get('app.check_authorization')->checkAuthorization($subFamily, "You are not allowed to edit this subFamily");
 
         $subFamily->setUpdatedAt(new DateTime());
 
@@ -141,7 +141,7 @@ class SubFamilyController extends Controller
     public function deleteAction($id)
     {
         $subFamily = $this->getDoctrine()->getRepository('AppBundle:SubFamily')->find($id);
-        $this->checkAuthorization($subFamily, "You are not allowed to delete this SubFamily");
+        $this->get('app.check_authorization')->checkAuthorization($subFamily, "You are not allowed to delete this SubFamily");
 
         $em = $this->getDoctrine()->getManager();
 
@@ -263,14 +263,4 @@ class SubFamilyController extends Controller
 
         return $this->redirectToRoute('subfamily_list');
     }
-
-    public function checkAuthorization(SubFamily $subFamily, $message)
-    {
-        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findAuthenticatedUser($this->container);
-        if ($user->getUsername() != $subFamily->getUser()->getUsername() && !in_array('ROLE_ADMIN',$user->getRoles()))
-        {
-            throw $this->createAccessDeniedException($message);
-        }
-    }
-
 }
