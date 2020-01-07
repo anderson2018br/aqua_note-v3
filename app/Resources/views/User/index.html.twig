@@ -94,10 +94,34 @@
         {% for user in users %}
             <tr>
                 <td>{{ user.username }}</td>
-                <td>{{ user.amountOfGenus }}</td>
-                <td>{{ user.amountOfSubFamilies }}</td>
-                <td>{{ user.amountOfNotes }}</td>
-                <td>{{ user.totalAmountOfCreatedObjects }}</td>
+                <td>
+                    {% if user.amountOfGenus == 0 %}
+                        {{ user.amountOfGenus }}
+                    {% else %}
+                        <a href="#" class="actions">{{ user.amountOfGenus }}</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if user.amountOfSubFamilies == 0 %}
+                        {{ user.amountOfSubFamilies }}
+                    {% else %}
+                        <a href="#" class="actions">{{ user.amountOfSubFamilies }}</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if user.amountOfNotes == 0 %}
+                        {{ user.amountOfNotes }}
+                    {% else %}
+                        <a href="#" class="actions">{{ user.amountOfNotes }}</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if user.totalAmountOfCreatedObjects == 0 %}
+                        {{ user.totalAmountOfCreatedObjects }}
+                    {% else %}
+                        <a href="#" class="actions">{{ user.totalAmountOfCreatedObjects }}</a>
+                    {% endif %}
+                </td>
                 <td>{{ user.avatarFileName }}</td>
                 <td>{% for role in user.roles %}
                         {{ role }}
