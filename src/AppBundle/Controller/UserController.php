@@ -48,6 +48,7 @@ class UserController extends Controller
      * @Route("/genus/{id}/show", name="user_genus_show")
      * @param $id
      * @return Response
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function showGenusAction($id)
     {
@@ -63,6 +64,7 @@ class UserController extends Controller
      * @Route("/genus/{id}/delete", name="user_delete_genus")
      * @noinspection PhpUnused
      * @return RedirectResponse
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteAllGenusAction($id)
     {
@@ -90,6 +92,7 @@ class UserController extends Controller
      * @noinspection PhpUnused
      * @param $id
      * @return Response
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function showSubFamilyAction($id)
     {
@@ -106,6 +109,7 @@ class UserController extends Controller
      * @Route("/subFamily/{id}/delete", name="user_delete_subFamilies")
      * @noinspection PhpUnused
      * @return RedirectResponse
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteAllSubFamiliesAction($id)
     {
@@ -133,6 +137,57 @@ class UserController extends Controller
         $this->addFlash('success','All SubFamilies Deleted');
 
         return $this->redirectToRoute('user_subFamily_show',array('id' => $id));
+    }
+
+    /**
+     * @param $id
+     * @Route("/notes/{id}/show", name="user_show_notes")
+     * @noinspection PhpUnused
+     * @return Response
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function showNotesAction($id)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')
+            ->find($id);
+
+        return $this->render('User/showNotes.html.twig', array(
+            'user' => $user
+        ));
+    }
+
+    /**
+     * @param $id
+     * @noinspection PhpUnused
+     * @Route("/user/notes/{id}/delete", name="user_notes_delete")
+     * @return RedirectResponse
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function deleteAllNotesAction($id)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+        foreach ($user->getNote() as $note)
+        {
+            $em->remove($note);
+        }
+        $em->flush();
+
+        $this->addFlash('success','All Notes Deleted');
+
+        return $this->redirectToRoute('user_show_notes', array('id' => $id));
+    }
+
+    /**
+     * @param $id
+     * @Route("/total/{id}/show", name="user_show_total")
+     * @noinspection PhpUnused
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function showTotalAction($id)
+    {
+
     }
 
     public function getFilterResults($users, $filter, $choice, $how)

@@ -112,7 +112,7 @@
                     {% if user.amountOfNotes == 0 %}
                         {{ user.amountOfNotes }}
                     {% else %}
-                        <a href="#" class="actions">{{ user.amountOfNotes }}</a>
+                        <a href="{{ path('user_show_notes', {'id': user.id}) }}" class="actions">{{ user.amountOfNotes }}</a>
                     {% endif %}
                 </td>
                 <td>
