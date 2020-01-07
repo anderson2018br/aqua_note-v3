@@ -18,9 +18,9 @@
         {% for user in users %}
             <tr>
                 <td>{{ user.username }}</td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{ user.amountOfGenus }}</td>
+                <td>{{ user.amountOfSubFamilies }}</td>
+                <td>{{ user.amountOfNotes }}</td>
                 <td>{{ user.avatarFileName }}</td>
                 <td>{% for role in user.roles %}
                         {{ role }}
@@ -31,6 +31,8 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <a href="{{ path('update_everything', {'url': 'user'}) }}">Update Amount of Everything</a>
 {% endblock %}
 
 {% block javascripts %}

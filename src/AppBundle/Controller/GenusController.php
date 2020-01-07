@@ -66,14 +66,9 @@ class GenusController extends Controller
         if ($form->isValid())
         {
             $genus = $form->getData();
-            $subFamily = $genus->getSubFamily();
             $em = $this->getDoctrine()->getManager();
             $em->persist($genus);
-            /** @noinspection PhpUndefinedMethodInspection */
-            $subFamily->setAmountOfGenus();
-            $em->persist($subFamily);
-            $em->flush();
-
+            $this->get('app.update_amount')->updateSubFamilyGenusAmount();
             $this->addFlash('success', sprintf('Genus Created'));
             return $this->redirectToRoute('genus_list');
         }
@@ -105,15 +100,10 @@ class GenusController extends Controller
         if ($form->isValid())
         {
             $notes = $form->getData();
-            $genus = $notes->getGenus();
             $em = $this->getDoctrine()->getManager();
             $em->persist($notes);
             $em->flush();
-            /** @noinspection PhpUndefinedMethodInspection */
-            $genus->setAmountOfNotes();
-            $em->persist($genus);
-            $em->flush();
-            /** @noinspection PhpUndefinedMethodInspection */
+            $this->get('app.update_amount')->updateAmountOfGenusNotes();
             return $this->redirectToRoute('genus_show', array('id' => $genus->getId()));
         }
         return $this->render('genus/show.html.twig', array(
@@ -141,14 +131,10 @@ class GenusController extends Controller
         if ($form->isValid())
         {
             $genus = $form->getData();
-            $subFamily = $genus->getSubFamily();
             $em = $this->getDoctrine()->getManager();
             $em->merge($genus);
             $em->flush();
-            /** @noinspection PhpUndefinedMethodInspection */
-            $subFamily->setAmountOfGenus();
-            $em->persist($subFamily);
-            $em->flush();
+            $this->get('app.update_amount')->updateSubFamilyGenusAmount();
             $this->addFlash('success', sprintf('Genus Updated'));
 
             return $this->redirectToRoute('genus_list');
@@ -170,7 +156,6 @@ class GenusController extends Controller
     {
         $genus = $this->getDoctrine()->getRepository('AppBundle:Genus')->find($id);
         $this->get('app.check_authorization')->checkAuthorization($genus, "You are not allowed to delete this genus");
-        $subFamily = $genus->getSubFamily();
         $em = $this->getDoctrine()->getManager();
         foreach ($genus->getNote() as $note)
         {
@@ -179,10 +164,7 @@ class GenusController extends Controller
 
         $em->remove($genus);
         $em->flush();
-        /** @noinspection PhpUndefinedMethodInspection */
-        $subFamily->setAmountOfGenus();
-        $em->persist($subFamily);
-        $em->flush();
+        $this->get('app.update_amount')->updateSubFamilyGenusAmount();
 
         $this->addFlash('danger', sprintf("Genus Deleted"));
 
@@ -321,28 +303,6 @@ class GenusController extends Controller
      */
     public function indexAction()
     {
-        return $this->redirectToRoute('genus_list');
-    }
-
-    /**
-     * @noinspection PhpUnused
-     * @Route("/genus/notes/updated/amount/of/notes", name="genus_notes_amount")
-     * @Security("is_granted('ROLE_ADMIN')")
-     */
-    public function updateAmountOfNotes()
-    {
-        $genuses = $this->getDoctrine()->getRepository('AppBundle:Genus')->findAll();
-
-        $em = $this->getDoctrine()->getManager();
-        foreach ($genuses as $genus)
-        {
-            $genus->setAmountOfNotes();
-
-            $em->persist($genus);
-        }
-
-        $em->flush();
-
         return $this->redirectToRoute('genus_list');
     }
 }

@@ -242,25 +242,4 @@ class SubFamilyController extends Controller
     {
         return $this->redirectToRoute('subfamily_list');
     }
-
-    /**
-     * @Route("/subFamily/update/genus/count/amount", name="genus_count")
-     * @noinspection PhpUnused
-     * @Security("is_granted('ROLE_ADMIN')")
-     */
-    public function updateGenusCount()
-    {
-        $subFamilies = $this->getDoctrine()->getRepository('AppBundle:SubFamily')->findAll();
-        $em = $this->getDoctrine()->getManager();
-
-        foreach ($subFamilies as $subFamily)
-        {
-            $subFamily->setAmountOfGenus();
-            $em->persist($subFamily);
-        }
-
-        $em->flush();
-
-        return $this->redirectToRoute('subfamily_list');
-    }
 }

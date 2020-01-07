@@ -113,7 +113,7 @@
 
 
     {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('genus_notes_amount') }}">Update Amount of Notes</a>
+        <a href="{{ path('update_everything', {'url': 'genus'}) }}">Update Amount of Notes</a>
     {% endif %}
 {% endblock %}
 

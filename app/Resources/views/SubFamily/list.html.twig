@@ -103,7 +103,7 @@
 </table>
 
     {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('genus_count') }}">Update Amount of genus</a>
+        <a href="{{ path('update_everything', {'url': 'family'}) }}">Update Amount of genus</a>
     {% endif %}
 {% endblock %}
 

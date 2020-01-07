@@ -71,16 +71,10 @@ class GenusNoteController extends Controller
         if ($form->isValid())
         {
             $notes = $form->getData();
-            $genus = $notes->getGenus();
-            /** @noinspection PhpUndefinedMethodInspection */
-            $genus->setAmountOfNotes();
             $em = $this->getDoctrine()->getManager();
-
             $em->persist($notes);
             $em->flush();
-
-            $em->persist($genus);
-            $em->flush();
+            $this->get('app.update_amount')->updateAmountOfGenusNotes();
             $this->addFlash('success',sprintf('Note Created!'));
 
             return $this->redirectToRoute('notes_list');
@@ -129,14 +123,10 @@ class GenusNoteController extends Controller
         if ($form->isValid())
         {
             $notes = $form->getData();
-            $genus = $notes->getGenus();
-            /** @noinspection PhpUndefinedMethodInspection */
-            $genus->setAmountOfNotes();
             $em = $this->getDoctrine()->getManager();
-
             $em->merge($notes);
             $em->flush();
-
+            $this->get('app.update_amount')->updateAmountOfGenusNotes();
             $this->addFlash('success', sprintf('Note Updated!'));
 
             return $this->redirectToRoute('notes_list');
@@ -159,18 +149,11 @@ class GenusNoteController extends Controller
     {
         $this->get('app.check_authorization')->checkNonObjectAuthorization();
         $note = $this->getDoctrine()->getRepository('AppBundle:GenusNote')->find($id);
-        $genus = $note->getGenus();
-
         $em = $this->getDoctrine()->getManager();
-
         $em->remove($note);
         $em->flush();
-        /** @noinspection PhpUndefinedMethodInspection */
-        $genus->setAmountOfNotes();
-
-        $em->persist($genus);
-        $em->flush();
-
+        $this->get('app.update_amount')->updateAmountOfGenusNotes();
+        $this->addFlash('danger', 'Note Deleted');
         return $this->redirectToRoute('notes_list');
     }
 
