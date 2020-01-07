@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityRepository;
 /**
  * Class GenusNoteRepository
  * @package AppBundle\Repository
+ * @noinspection PhpUnused
  */
 class GenusNoteRepository extends EntityRepository
 {

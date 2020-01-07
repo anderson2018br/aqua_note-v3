@@ -125,6 +125,11 @@ class User implements UserInterface
      */
     public function setRoles($roles)
     {
+        if (!in_array('ROLE_USER', $roles))
+        {
+            $roles[] = 'ROLE_USER';
+        }
+
         $this->roles = $roles;
     }
 

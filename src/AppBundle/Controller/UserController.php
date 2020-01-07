@@ -57,6 +57,97 @@ class UserController extends Controller
                 case 4: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByQueryExactWord($filter); break;
             }
         }
+        else if ($choice == 2)
+        {
+            switch ($how)
+            {
+                case 1: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByUsernameAnywhere($filter); break;
+
+                case 2: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByUsernameStartingWith($filter); break;
+
+                case 3: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByUsernameEndingWith($filter); break;
+
+                case 4: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByUsernameExactWord($filter); break;
+            }
+        }
+        else if ($choice == 3)
+        {
+            switch ($how)
+            {
+                case 1: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByAmountOfGenusAnywhere($filter); break;
+
+                case 2: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByAmountOfGenusStartingWith($filter); break;
+
+                case 3: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByAmountOfGenusEndingWith($filter); break;
+
+                case 4: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByAmountOfGenusExactWord($filter); break;
+            }
+        }
+        else if ($choice == 4)
+        {
+            switch ($how)
+            {
+                case 1: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByAmountOfSubFamiliesAnywhere($filter); break;
+
+                case 2: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByAmountOfSubFamiliesStartingWith($filter); break;
+
+                case 3: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByAmountOfSubFamiliesEndingWith($filter); break;
+
+                case 4: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByAmountOfSubFamiliesExactWord($filter); break;
+            }
+        }
+        else if ($choice == 5)
+        {
+            switch ($how)
+            {
+                case 1: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByAmountOfNotesAnywhere($filter); break;
+
+                case 2: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByAmountOfNotesStartingWith($filter); break;
+
+                case 3: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByAmountOfNotesEndingWith($filter); break;
+
+                case 4: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByAmountOfNotesExactWord($filter); break;
+            }
+        }
+        else if ($choice == 6)
+        {
+            switch ($how)
+            {
+                case 1: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByTotalAmountOfCreatedObjectsAnywhere($filter); break;
+
+                case 2: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByTotalAmountOfCreatedObjectsStartingWith($filter); break;
+
+                case 3: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByTotalAmountOfCreatedObjectsEndingWith($filter); break;
+
+                case 4: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByTotalAmountOfCreatedObjectsExactWord($filter); break;
+            }
+        }
+        else if ($choice == 7)
+        {
+            switch ($how)
+            {
+                case 1: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByAvatarFileNameAnywhere($filter); break;
+
+                case 2: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByAvatarFileNameStartingWith($filter); break;
+
+                case 3: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByAvatarFileNameEndingWith($filter); break;
+
+                case 4: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByAvatarFileNameExactWord($filter); break;
+            }
+        }
+        else if ($choice == 8)
+        {
+            switch ($how)
+            {
+                case 1: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByRolesAnywhere($filter); break;
+
+                case 2: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByRolesStartingWith($filter); break;
+
+                case 3: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByRolesEndingWith($filter); break;
+
+                case 4: $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAllByRolesExactWord($filter); break;
+            }
+        }
 
         return $users;
     }

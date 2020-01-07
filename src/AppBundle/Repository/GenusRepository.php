@@ -4,6 +4,11 @@ namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Class GenusRepository
+ * @package AppBundle\Repository
+ * @noinspection PhpUnused
+ */
 class GenusRepository extends EntityRepository
 {
     // find all ordered

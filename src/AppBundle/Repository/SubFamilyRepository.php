@@ -4,6 +4,11 @@ namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Class SubFamilyRepository
+ * @package AppBundle\Repository
+ * @noinspection PhpUnused
+ */
 class SubFamilyRepository extends EntityRepository
 {
     // find ordered
