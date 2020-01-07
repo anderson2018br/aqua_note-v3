@@ -52,6 +52,7 @@ class SubFamilyController extends Controller
      */
     public function newAction(Request $request)
     {
+        $url = $this->generateUrl('subfamily_list');
         $subFamily = new SubFamily();
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->findAuthenticatedUser($this->container);
         $subFamily->setUser($user);
@@ -75,7 +76,8 @@ class SubFamilyController extends Controller
         }
 
         return $this->render('SubFamily/new.html.twig',array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'url' => $url
         ));
     }
     /**
@@ -104,6 +106,11 @@ class SubFamilyController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $url = $request->headers->get('referer');
+        if ($url == $this->generateUrl('family_edit',array('id' => $id)))
+        {
+            $url = $this->generateUrl('subfamily_list');
+        }
         $subFamily = $this->getDoctrine()->getRepository('AppBundle:SubFamily')->find($id);
         $this->get('app.check_authorization')->checkAuthorization($subFamily, "You are not allowed to edit this subFamily");
 
@@ -122,12 +129,14 @@ class SubFamilyController extends Controller
 
             $this->addFlash('success',sprintf('SubFamily updated!'));
 
-            return $this->redirectToRoute('subfamily_list');
+            return $this->redirect($url);
         }
 
         return $this->render('SubFamily/edit.html.twig', array(
             'form' => $form->createView(),
-            'subFamily' => $subFamily
+            'subFamily' => $subFamily,
+            'url' => $url,
+            'correctUrl' => 'http://127.0.0.1:8000'.$this->generateUrl('family_edit',array('id' => $id))
         ));
     }
 

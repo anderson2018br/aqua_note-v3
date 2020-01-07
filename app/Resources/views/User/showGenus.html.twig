@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center">Show genus list for user {{ user.username }}</h1>
+
+                <table class="table table-striped display" style="text-align: center;" id="user_genus-table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Delete</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for genus in user.genus %}
+                        <tr>
+                            <td><a href="{{ path('genus_show', {'id': genus.id}) }}" class="actions">{{ genus.name }}</a></td>
+                            <td><a href="{{ path('genus_delete', {'id': genus.id}) }}" class="actions delete-genus">Delete</a> </td>
+                            <td><a href="{{ path('genus_edit',{'id': genus.id}) }}" class="actions">Edit</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ path('user_list') }}" class="btn btn-dark">Back</a>
+    <a href="{{ path('user_delete_genus',{'id': user.id}) }}" class="btn btn-danger delete-genus">Delete all</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#user_genus-table').DataTable({
+            searching: false,
+            info: false,
+            pageLength: 10,
+            lengthChange: false,
+            aaSorting: false
+        });
+    </script>
+    <script>
+        $('.delete-genus').on('click',function (e) {
+            e.preventDefault();
+            let link = $(this).attr('href');
+            $.confirm({
+                title: 'Delete Genus',
+                content: 'Are you sure you want to delete this genus its notes will be deleted as well',
+                buttons: {
+                    Confirm: {
+                        text: 'Delete Genus',
+                        btnClass: 'btn btn-primary',
+                        keys: ['shift'],
+                        action: function () {
+                            location.href = link;
+                        }
+                    },
+                    Cancel: {
+                        text: 'Cancel',
+                        btnClass: 'btn btn-light',
+                        keys: ['enter'],
+                        action: function () {
+
+                        }
+                    }
+                }
+            })
+        });
+    </script>
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,6 +41,47 @@ class UserController extends Controller
             'choice' => $choice,
             'how' => $how,
         ));
+    }
+
+    /**
+     * @noinspection PhpUnused
+     * @Route("/genus/{id}/show", name="user_genus_show")
+     * @param $id
+     * @return Response
+     */
+    public function showGenusAction($id)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        return $this->render('User/showGenus.html.twig', array(
+            'user' => $user
+        ));
+    }
+
+    /**
+     * @param $id
+     * @Route("/genus/{id}/delete", name="user_delete_genus")
+     * @noinspection PhpUnused
+     * @return RedirectResponse
+     */
+    public function deleteAllGenusAction($id)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        foreach ($user->getGenus() as $genus) {
+            foreach ($genus->getNote() as $note)
+            {
+                $em->remove($note);
+            }
+            $em->remove($genus);
+        }
+
+        $em->flush();
+        $this->get('app.update_amount')->updateEverything();
+
+        $this->addFlash('success','All genus Deleted');
+
+        return $this->redirectToRoute('user_list');
     }
 
     public function getFilterResults($users, $filter, $choice, $how)

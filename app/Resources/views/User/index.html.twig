@@ -98,7 +98,7 @@
                     {% if user.amountOfGenus == 0 %}
                         {{ user.amountOfGenus }}
                     {% else %}
-                        <a href="#" class="actions">{{ user.amountOfGenus }}</a>
+                        <a href="{{ path('user_genus_show', {'id': user.id}) }}" class="actions">{{ user.amountOfGenus }}</a>
                     {% endif %}
                 </td>
                 <td>

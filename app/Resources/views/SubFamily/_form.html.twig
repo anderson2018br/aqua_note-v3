@@ -1,7 +1,10 @@
 {{ form_start(form) }}
     {{ form_row(form.name) }}
     {{ form_row(form.description) }}
-
+{% if url == correctUrl %}
     <a href="{{ path('subfamily_list') }}" class="btn btn-dark">Back</a>
+{% else %}
+    <a href="{{ url }}" class="btn btn-dark">Back</a>
+{% endif %}
     <button type="submit" class="btn btn-success">Save</button>
 {{ form_end(form) }}

@@ -113,6 +113,7 @@ class GenusNoteController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $url = $request->headers->get('referer');
         $this->get('app.check_authorization')->checkNonObjectAuthorization();
         $note = $this->getDoctrine()->getRepository('AppBundle:GenusNote')->find($id);
         $note->setUpdatedAt(new DateTime());
@@ -129,24 +130,28 @@ class GenusNoteController extends Controller
             $this->get('app.update_amount')->updateEverything();
             $this->addFlash('success', sprintf('Note Updated!'));
 
-            return $this->redirectToRoute('notes_list');
+            return $this->redirect($url);
         }
 
         return $this->render('Notes/edit.html.twig', array(
             'form' => $form->createView(),
-            'note' => $note
+            'note' => $note,
+            'url' => $url,
+            'correctUrl' => 'http://127.0.0.1:8000'.$this->generateUrl('note_edit', array('id' => $id))
         ));
     }
 
     /**
      * @param $id
+     * @param Request $request
+     * @return RedirectResponse
      * @noinspection PhpUnused
      * @Route("/delete/{id}", name="note_delete")
      * @Security("is_granted('ROLE_ADMIN')")
-     * @return RedirectResponse
      */
-    public function deleteAction($id)
+    public function deleteAction($id, Request $request)
     {
+        $url = $request->headers->get('referer');
         $this->get('app.check_authorization')->checkNonObjectAuthorization();
         $note = $this->getDoctrine()->getRepository('AppBundle:GenusNote')->find($id);
         $em = $this->getDoctrine()->getManager();
@@ -154,7 +159,7 @@ class GenusNoteController extends Controller
         $em->flush();
         $this->get('app.update_amount')->updateEverything();
         $this->addFlash('danger', 'Note Deleted');
-        return $this->redirectToRoute('notes_list');
+        return $this->redirect($url);
     }
 
     /**

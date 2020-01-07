@@ -55,6 +55,7 @@ class GenusController extends Controller
      */
     public function newAction(Request $request)
     {
+        $url = $request->headers->get('referer');
         $genus = new Genus();
         $genus->setCreatedAt(new DateTime());
         $genus->setUpdatedAt(new DateTime());
@@ -74,7 +75,8 @@ class GenusController extends Controller
         }
 
         return $this->render('genus/new.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'url' => $this->generateUrl('genus_list')
         ));
     }
 
@@ -123,6 +125,7 @@ class GenusController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $url = $request->headers->get('referer');
         $genus = $this->getDoctrine()->getRepository('AppBundle:Genus')->find($id);
         $this->get('app.check_authorization')->checkAuthorization($genus, "You are not allowed to edit this genus");
         $genus->setUpdatedAt(new DateTime());
@@ -137,23 +140,27 @@ class GenusController extends Controller
             $this->get('app.update_amount')->updateEverything();
             $this->addFlash('success', sprintf('Genus Updated'));
 
-            return $this->redirectToRoute('genus_list');
+            return $this->redirect($url);
         }
         return $this->render('genus/edit.html.twig', array(
             'genus' => $genus,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'url' => $url,
+            'correctUrl' => 'http://127.0.0.1:8000'.$this->generateUrl('genus_edit',array('id' => $id))
         ));
     }
 
     /**
      * @param $id
+     * @param Request $request
+     * @return RedirectResponse
      * @Route("/{id}/delete", name="genus_delete")
      * @Security("is_granted('ROLE_USER')")
-     * @return RedirectResponse
      * @noinspection PhpUnused
      */
-    public function deleteAction($id)
+    public function deleteAction($id, Request $request)
     {
+        $url = $request->headers->get('referer');
         $genus = $this->getDoctrine()->getRepository('AppBundle:Genus')->find($id);
         $this->get('app.check_authorization')->checkAuthorization($genus, "You are not allowed to delete this genus");
         $em = $this->getDoctrine()->getManager();
@@ -168,7 +175,7 @@ class GenusController extends Controller
 
         $this->addFlash('danger', sprintf("Genus Deleted"));
 
-        return $this->redirectToRoute('genus_list');
+        return $this->redirect($url);
     }
 
     /**
