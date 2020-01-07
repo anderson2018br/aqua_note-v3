@@ -2,6 +2,31 @@
 
 {% block body %}
     <h1 class="text-center">Users</h1>
+    <div class="search">
+        <label>Search
+            <input type="text" class="form-control" id="search"/>
+        </label>
+        <label>
+            <select class="form-control" id="choice">
+                <option value="1">Username</option>
+                <option value="2">Amount of Genus</option>
+                <option value="3">Amount of SubFamilies</option>
+                <option value="4">Amount of Notes</option>
+                <option value="5">Avatar FileName</option>
+                <option value="6">Roles</option>
+            </select>
+        </label>
+        <label>
+            <select class="form-control" id="how">
+                <option value="1">Anywhere</option>
+                <option value="2">Starting With</option>
+                <option value="3">Ending With</option>
+                <option value="4">Exact Word</option>
+            </select>
+        </label>
+        <a href="{{ path('user_list') }}" class="btn btn-primary" id="search-button">Search</a>
+        <a href="{{ path('user_list') }}">Clear Filters</a>
+    </div>
     <table class="table table-borderless" id="user-table">
         <thead>
             <tr>
@@ -37,6 +62,17 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        $('#search-button').on('click', function (e) {
+            e.preventDefault();
+
+            let filter = $('#search').val();
+            let choice = $('#choice').val();
+            let how    = $('#how').val();
+
+            location.href = $('#search-button').attr('href') + '?filter=' + filter + '&choice=' + choice + '&how=' + how;
+        });
+    </script>
     <script>
         $('#user-table').DataTable({
             info: false,

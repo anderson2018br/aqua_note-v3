@@ -26,10 +26,21 @@ class UserController extends Controller
     public function listAction(Request $request)
     {
         $this->get('app.check_authorization')->checkNonObjectAuthorization();
-        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findAllOrdered();
+
+        $filter = $request->query->get('filter');
+        $choice = $request->query->get('choice');
+        $how    = $request->query->get('how');
+
+        $user = $this->getFilterResults($user, $filter, $choice, $how);
 
         return $this->render('User/index.html.twig', array(
             'users' => $user
         ));
+    }
+
+    public function getFilterResults($users, $filter, $choice, $how)
+    {
+        return $users;
     }
 }

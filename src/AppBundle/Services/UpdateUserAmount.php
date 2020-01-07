@@ -85,6 +85,21 @@ class UpdateUserAmount
         $this->entityManager->flush();
     }
 
+    public function updateTotalAmountOfEverything()
+    {
+        $users = $this->entityManager->getRepository('AppBundle:User')
+            ->findAll();
+
+        foreach ($users as $user)
+        {
+            $user->setTotalAmountOfCreatedObjects();
+
+            $this->entityManager->persist($user);
+        }
+
+        $this->entityManager->flush();
+    }
+
     public function updateEverything()
     {
         $this->updateAmountOfGenus();
@@ -92,5 +107,6 @@ class UpdateUserAmount
         $this->updateAmountOfNotes();
         $this->updateAmountOfGenusNotes();
         $this->updateSubFamilyGenusAmount();
+        $this->updateTotalAmountOfEverything();
     }
 }

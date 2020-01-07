@@ -55,6 +55,11 @@ class User implements UserInterface
     private $amountOfNotes = 0;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $totalAmountOfCreatedObjects = 0;
+
+    /**
      * @ORM\Column(type="json_array")
      */
     private $roles = [];
@@ -313,4 +318,24 @@ class User implements UserInterface
     {
         return $this->username;
     }
+
+    /**
+     * @return int
+     * @noinspection PhpUnused
+     */
+    public function getTotalAmountOfCreatedObjects()
+    {
+        $this->totalAmountOfCreatedObjects = $this->getAmountOfGenus() + $this->getAmountOfNotes() + $this->getAmountOfSubFamilies();
+        return $this->totalAmountOfCreatedObjects;
+    }
+
+    /**
+     * @noinspection PhpUnused
+     */
+    public function setTotalAmountOfCreatedObjects()
+    {
+        $this->totalAmountOfCreatedObjects = $this->getAmountOfGenus() + $this->getAmountOfNotes() + $this->getAmountOfSubFamilies();;
+    }
+
+
 }

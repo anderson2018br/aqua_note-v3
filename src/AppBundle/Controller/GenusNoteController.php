@@ -74,7 +74,7 @@ class GenusNoteController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($notes);
             $em->flush();
-            $this->get('app.update_amount')->updateAmountOfGenusNotes();
+            $this->get('app.update_amount')->updateEverything();
             $this->addFlash('success',sprintf('Note Created!'));
 
             return $this->redirectToRoute('notes_list');
@@ -126,7 +126,7 @@ class GenusNoteController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->merge($notes);
             $em->flush();
-            $this->get('app.update_amount')->updateAmountOfGenusNotes();
+            $this->get('app.update_amount')->updateEverything();
             $this->addFlash('success', sprintf('Note Updated!'));
 
             return $this->redirectToRoute('notes_list');
@@ -152,7 +152,7 @@ class GenusNoteController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($note);
         $em->flush();
-        $this->get('app.update_amount')->updateAmountOfGenusNotes();
+        $this->get('app.update_amount')->updateEverything();
         $this->addFlash('danger', 'Note Deleted');
         return $this->redirectToRoute('notes_list');
     }

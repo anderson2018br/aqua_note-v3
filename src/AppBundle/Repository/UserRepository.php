@@ -3,7 +3,6 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class UserRepository extends EntityRepository
 {
@@ -12,5 +11,13 @@ class UserRepository extends EntityRepository
         $token = $controller->get('security.token_storage')->getToken();
         $authenticatedUser = $token->getUsername();
         return $this->findOneBy(['username' => $authenticatedUser]);
+    }
+//
+    public function findAllOrdered()
+    {
+        return $this->createQueryBuilder('u')
+            ->addOrderBy('u.totalAmountOfCreatedObjects','DESC')
+            ->getQuery()
+            ->execute();
     }
 }

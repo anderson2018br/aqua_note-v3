@@ -68,7 +68,7 @@ class GenusController extends Controller
             $genus = $form->getData();
             $em = $this->getDoctrine()->getManager();
             $em->persist($genus);
-            $this->get('app.update_amount')->updateSubFamilyGenusAmount();
+            $this->get('app.update_amount')->updateEverything();
             $this->addFlash('success', sprintf('Genus Created'));
             return $this->redirectToRoute('genus_list');
         }
@@ -103,7 +103,7 @@ class GenusController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($notes);
             $em->flush();
-            $this->get('app.update_amount')->updateAmountOfGenusNotes();
+            $this->get('app.update_amount')->updateEverything();
             return $this->redirectToRoute('genus_show', array('id' => $genus->getId()));
         }
         return $this->render('genus/show.html.twig', array(
@@ -134,7 +134,7 @@ class GenusController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->merge($genus);
             $em->flush();
-            $this->get('app.update_amount')->updateSubFamilyGenusAmount();
+            $this->get('app.update_amount')->updateEverything();
             $this->addFlash('success', sprintf('Genus Updated'));
 
             return $this->redirectToRoute('genus_list');
@@ -164,7 +164,7 @@ class GenusController extends Controller
 
         $em->remove($genus);
         $em->flush();
-        $this->get('app.update_amount')->updateSubFamilyGenusAmount();
+        $this->get('app.update_amount')->updateEverything();
 
         $this->addFlash('danger', sprintf("Genus Deleted"));
 
