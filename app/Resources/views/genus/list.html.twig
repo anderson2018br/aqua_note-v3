@@ -98,11 +98,11 @@
                 <td>{{ genus.firstDiscoveredAt | date('Y-m-d') }}</td>
                 <td>{{ genus.amountOfNotes }}</td>
                 <td>
-                    <a href="{{ path('genus_show', {'id': genus.id}) }}"><span class="fa fa-eye actions">&nbsp;</span></a>
+                    <a href="{{ path('genus_show', {'id': genus.id}) }}" title="Show Genus"><span class="fa fa-eye actions">&nbsp;</span></a>
                     {% if is_granted('ROLE_USER') %}
                     {% if is_granted('ROLE_ADMIN') or genus.user.username == app.user.username %}
-                        | <a href="{{ path('genus_edit', {'id': genus.id}) }}"><span class="fa fa-pen actions">&nbsp;</span></a>
-                        | <a href="{{ path('genus_delete', {'id': genus.id}) }}" class="delete-genus"><span class="fa fa-trash-alt actions">&nbsp;</span></a>
+                        | <a href="{{ path('genus_edit', {'id': genus.id}) }}" title="Edit Genus"><span class="fa fa-pen actions">&nbsp;</span></a>
+                        | <a href="{{ path('genus_delete', {'id': genus.id}) }}" class="delete-genus" title="Delete Genus"><span class="fa fa-trash-alt actions">&nbsp;</span></a>
                     {% endif %}
                     {% endif %}
                 </td>

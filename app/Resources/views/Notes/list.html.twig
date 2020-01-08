@@ -78,9 +78,9 @@
                     </label>
                 </td>
                 <td>
-                    <a href="{{ path('note_show', {'id': note.id}) }}"><span class="fa fa-eye actions">&nbsp;</span></a> |
-                    <a href="{{ path('note_edit', {'id': note.id}) }}"><span class="fa fa-pen actions">&nbsp;</span></a> |
-                    <a href="{{ path('note_delete', {'id': note.id}) }}" class="delete-genus"><span class="fa fa-trash-alt actions">&nbsp;</span></a>
+                    <a href="{{ path('note_show', {'id': note.id}) }}" title="Show Note"><span class="fa fa-eye actions">&nbsp;</span></a> |
+                    <a href="{{ path('note_edit', {'id': note.id}) }}" title="Edit Note"><span class="fa fa-pen actions">&nbsp;</span></a> |
+                    <a href="{{ path('note_delete', {'id': note.id}) }}" class="delete-genus" title="Delete Note"><span class="fa fa-trash-alt actions">&nbsp;</span></a>
                 </td>
             </tr>
        {% endfor %}

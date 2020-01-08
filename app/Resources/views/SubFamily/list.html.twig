@@ -89,11 +89,11 @@
                 {{ subFamily.amountofgenus }}
             </td>
             <td>
-                <a href="{{ path('show_family', {'id': subFamily.id}) }}"><span class="fa fa-eye actions">&nbsp;</span></a>
+                <a href="{{ path('show_family', {'id': subFamily.id}) }}" title="Show SubFamily"><span class="fa fa-eye actions">&nbsp;</span></a>
                 {% if is_granted('ROLE_USER') %}
                     {% if is_granted('ROLE_ADMIN') or app.user.username == subFamily.user.username %}
-                      |  <a href="{{ path('family_edit', {'id': subFamily.id}) }}"><span class="fa fa-pen actions">&nbsp;</span></a>
-                      |  <a class="delete-link" href="{{ path('family_delete', {'id': subFamily.id}) }}" id="delete-link"><span class="fa fa-trash-alt actions">&nbsp;</span></a>
+                      |  <a href="{{ path('family_edit', {'id': subFamily.id}) }}" title="Edit SubFamily"><span class="fa fa-pen actions">&nbsp;</span></a>
+                      |  <a class="delete-link" href="{{ path('family_delete', {'id': subFamily.id}) }}" id="delete-link" title="Delete SubFamily"><span class="fa fa-trash-alt actions">&nbsp;</span></a>
                     {% endif %}
                 {% endif %}
             </td>
