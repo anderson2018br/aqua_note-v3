@@ -313,6 +313,7 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         foreach ($user->getGenus() as $genus)
         {
+            /** @noinspection PhpUndefinedMethodInspection */
             foreach ($genus->getNote() as $note)
             {
                 $em->remove($note);
@@ -321,8 +322,10 @@ class UserController extends Controller
         }
         foreach ($user->getSubFamily() as $subFamily)
         {
+            /** @noinspection PhpUndefinedMethodInspection */
             foreach ($subFamily->getGenus() as $genus)
             {
+                /** @noinspection PhpUndefinedMethodInspection */
                 foreach ($genus->getNote() as $note)
                 {
                     $em->remove($note);
