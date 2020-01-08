@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Form\GenusNoteForm;
 use AppBundle\Form\MyAccountEditAvatarForm;
 use AppBundle\Form\MyAccountEditUsernameForm;
 use AppBundle\Form\UserChangePasswordForm;
@@ -93,6 +94,34 @@ class MyAccountController extends Controller
             'formUsername' => $formUsername->createView(),
             'formAvatar'   => $formAvatar->createView(),
             'formPassword' => $formChangePassword->createView(),
+        ));
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return Response
+     * @noinspection PhpUnused
+     */
+    public function showAmountOfGenus(Request $request, $id)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+        $formGenus = $this->createForm(GenusNoteForm::class, $user->getGenus());
+        $formGenus->handleRequest($request);
+
+        $em = $this->getDoctrine()->getManager();
+
+        if ($formGenus->isSubmitted() && $formGenus->isValid())
+        {
+            $genus = $formGenus->getData();
+
+            $em->merge($genus);
+            $em->flush();
+        }
+
+        return $this->render('MyAccount/showGenus.html.twig', array(
+            'user' => $user,
+            'formGenus' => $formGenus->createView()
         ));
     }
 }

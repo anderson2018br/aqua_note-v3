@@ -21,3 +21,45 @@ main {
 td {
     vertical-align: middle!important;
 }
+#subFamilyGenus {
+    height: 0;
+    overflow: hidden;
+    z-index: 1;
+    transition: height .3s linear;
+}
+
+.subFamilyGenusActivate {
+    height: 150px!important;
+    transition: height .3s linear;
+}
+#speciesCountGenus {
+    height: 0;
+    overflow: hidden;
+    z-index: 1;
+    transition: height .3s linear;
+}
+.speciesCountGenusActivate {
+    height: 150px!important;
+    transition: height .3s linear;
+}
+#funFactGenus {
+    height: 0;
+    overflow: hidden;
+    z-index: 1;
+    transition: height .3s linear;
+}
+.funFactGenusActivate
+{
+    height: 150px!important;
+    transition: height .3s linear;
+}
+#nameGenus {
+    height: 0;
+    overflow: hidden;
+    z-index: 1;
+    transition: height .3s linear;
+}
+.nameGenusActivate {
+    height: 150px!important;
+    transition: height .3s linear;
+}

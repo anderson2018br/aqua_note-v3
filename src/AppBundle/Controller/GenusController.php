@@ -5,7 +5,11 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Genus;
 use AppBundle\Entity\GenusNote;
 use AppBundle\Form\GenusForm;
+use AppBundle\Form\GenusFunFactForm;
+use AppBundle\Form\GenusKnownSpeciesForm;
+use AppBundle\Form\GenusNameForm;
 use AppBundle\Form\GenusShowNoteForm;
+use AppBundle\Form\GenusSubFamilyForm;
 use DateTime;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -100,21 +104,86 @@ class GenusController extends Controller
         $note->setCreatedAt(new DateTime());
         $note->setUpdatedAt(new DateTime());
         $note->setUser($user);
-
+        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(GenusShowNoteForm::class, $note);
         $form->handleRequest($request);
-        if ($form->isValid())
+        if ($form->isSubmitted() && $form->isValid())
         {
             $notes = $form->getData();
-            $em = $this->getDoctrine()->getManager();
             $em->persist($notes);
             $em->flush();
             $this->get('app.update_amount')->updateEverything();
             return $this->redirectToRoute('genus_show', array('id' => $genus->getId()));
         }
+
+        $formSubFamily = $this->createForm(GenusSubFamilyForm::class, $genus);
+        $formSubFamily->handleRequest($request);
+
+        if ($formSubFamily->isSubmitted() && $formSubFamily->isValid())
+        {
+            $genus = $formSubFamily->getData();
+            $genus->setUpdatedAt(new DateTime());
+            $em->merge($genus);
+            $em->flush();
+
+            $this->addFlash('success', sprintf('SubFamily Updated'));
+
+            return $this->redirectToRoute('genus_show', array('id' => $genus->getId()));
+        }
+
+        $formKnownSpecies = $this->createForm(GenusKnownSpeciesForm::class, $genus);
+        $formKnownSpecies->handleRequest($request);
+
+        if ($formKnownSpecies->isSubmitted() && $formKnownSpecies->isValid())
+        {
+            $genus = $formKnownSpecies->getData();
+            $genus->setUpdatedAt(new DateTime());
+            $em->merge($genus);
+            $em->flush();
+
+            $this->addFlash('success',sprintf('Known Species Updated!'));
+
+            return $this->redirectToRoute('genus_show', array('id' => $genus->getId()));
+        }
+
+        $formFunFact = $this->createForm(GenusFunFactForm::class, $genus);
+        $formFunFact->handleRequest($request);
+
+        if ($formFunFact->isSubmitted() && $formFunFact->isValid())
+        {
+            $genus = $formFunFact->getData();
+            $genus->setUpdatedAt(new DateTime());
+            $em->merge($genus);
+            $em->flush();
+
+            $this->addFlash('success', sprintf('Fun Fact Updated'));
+
+            return  $this->redirectToRoute('genus_show',array('id' => $genus->getId()));
+        }
+
+        $formGenusName = $this->createForm(GenusNameForm::class,$genus);
+        $formGenusName->handleRequest($request);
+
+        if ($formGenusName->isSubmitted() && $formGenusName->isValid())
+        {
+            $genus = $formGenusName->getData();
+            $genus->setUpdatedAt(new DateTime());
+
+            $em->merge($genus);
+            $em->flush();
+
+            $this->addFlash('success', sprintf('Name Updated!'));
+
+            return $this->redirectToRoute('genus_show', array('id' => $genus->getId()));
+        }
+
         return $this->render('genus/show.html.twig', array(
             'genus' => $genus,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'formSubFamily' => $formSubFamily->createView(),
+            'formKnownSpecies' => $formKnownSpecies->createView(),
+            'formFunFact' => $formFunFact->createView(),
+            'formGenusName' => $formGenusName->createView(),
         ));
     }
 

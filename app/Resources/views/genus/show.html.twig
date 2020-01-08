@@ -1,17 +1,37 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2 class="genus-name">{{ genus.name }}</h2>
+    {% if app.user and app.user.username == genus.user.username %}
+        <h2 class="genus-name text-center">{{ genus.name }}<a href="#" id="name-edit" style="margin-left: 5px;"><span id="name-span" class="fa fa-pen-alt actions" style="width: 20px;">&nbsp;</span></a></h2>
+        <dd id="nameGenus">{{ include('genus/_formGenusName.html.twig') }}</dd>
+    {% else %}
+        <h2 class="genus-name text-center">{{ genus.name }}</h2>
+    {% endif %}
     <div class="sea-creature-container">
         <div class="genus-photo"></div>
         <div class="genus-details">
             <dl class="genus-details-list">
                 <dt>Sub Family:</dt>
+                {% if app.user and app.user.username == genus.user.username %}
+                <dd>{{ genus.subFamily.name }}<a href="#" id="sub-family-edit" style="margin-left: 5px;"><span id="sub-family-span" class="fa fa-pen-alt actions">&nbsp;</span></a></dd>
+                <dd id="subFamilyGenus">{{ include('genus/_subFamily.html.twig') }}</dd>
+                {% else %}
                 <dd>{{ genus.subFamily.name }}</dd>
+                {% endif %}
                 <dt>Known Species:</dt>
+                {% if app.user and app.user.username == genus.user.username %}
+                  <dd>{{ genus.speciesCount }}<a href="#" id="species-count-edit" style="margin-left: 5px;"><span id="species-count-span" class="fa fa-pen-alt actions">&nbsp;</span></a></dd>
+                 <dd id="speciesCountGenus">{{ include('genus/_speciesCount.html.twig') }}</dd>
+                {% else %}
                 <dd>{{ genus.speciesCount }}</dd>
+                {% endif %}
                 <dt>Fun Fact:</dt>
+                {% if app.user and app.user.username == genus.user.username %}
+                <dd>{{ genus.funFact }}<a href="#" id="fun-fact-edit" style="margin-left: 5px;"><span id="fun-fact-span" class="fa fa-pen-alt actions">&nbsp;</span></a></dd>
+                <dd id="funFactGenus">{{ include('genus/_funFact.html.twig') }}</dd>
+                {% else %}
                 <dd>{{ genus.funFact }}</dd>
+                {% endif %}
                 <dt>Created By:</dt>
                 <dd>{{ genus.user.username }}</dd>
                 <dt>Amount of notes:</dt>
@@ -66,6 +86,33 @@
             $('#note-form').toggleClass('js-add-note-activate');
             $('.plus').toggleClass('fa-plus-circle');
             $('.plus').toggleClass('fa-minus-circle');
+        });
+    </script>
+
+    <script>
+        $('#sub-family-edit').on('click', function (e) {
+            e.preventDefault();
+            $('#subFamilyGenus').toggleClass('subFamilyGenusActivate');
+            $('#sub-family-span').toggleClass('fa-pen-alt');
+            $('#sub-family-span').toggleClass('fa-window-close');
+        });
+        $('#species-count-edit').on('click', function (e) {
+            e.preventDefault();
+            $('#speciesCountGenus').toggleClass('speciesCountGenusActivate');
+            $('#species-count-span').toggleClass('fa-pen-alt');
+            $('#species-count-span').toggleClass('fa-window-close');
+        });
+        $('#fun-fact-edit').on('click',function (e) {
+            e.preventDefault();
+            $('#funFactGenus').toggleClass('funFactGenusActivate');
+            $('#fun-fact-span').toggleClass('fa-pen-alt');
+            $('#fun-fact-span').toggleClass('fa-window-close');
+        });
+        $('#name-edit').on('click', function (e) {
+            e.preventDefault();
+            $('#nameGenus').toggleClass('nameGenusActivate');
+            $('#name-span').toggleClass('fa-pen-alt');
+            $('#name-span').toggleClass('fa-window-close');
         });
     </script>
 {% endblock %}
