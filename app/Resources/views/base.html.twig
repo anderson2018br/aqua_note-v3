@@ -64,6 +64,14 @@
                 </li>
             </a>
             {% endif %}
+            {% if is_granted('ROLE_USER') %}
+                <a class="menu-anchor" href="{{ path('account_index') }}">
+                    <li class="menu-item" id="side-menu-account">
+                        <span class="fa fa-user-circle side-menu-item">&nbsp;</span>
+                        <menu-text class="side-menu-text">MyAccount</menu-text>
+                    </li>
+                </a>
+            {% endif %}
         </ul>
     </menu>
     <div class="sub-menu genus">

@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/myAccount.css') }}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 user-account" >
+                <h1 class="text-center">MyAccount</h1>
+                <div>
+                    <div>
+                            <a class="username col-12">Username:</a>
+                            <a class="username-text col-12">{{ user.username }}</a>
+                            <a class="col-1" href="#" id="username-edit" title="Edit Username" style="float: right;"><span class="fa fa-pen-alt actions" id="account-span" style="color: #9fcdff;">&nbsp;</span></a>
+                    </div>
+                    <div id="edit-username">
+                           {{ include('MyAccount/_editUsernameForm.html.twig') }}
+                   </div>
+                    <div>
+                        <a class="username col-12">Roles:</a>
+                        <a class="username-text col-12" style="margin-left: 25%!important;">
+                            {% for role in user.roles %}
+                                {{ role | lower }}
+                            {% endfor %}
+                        </a>
+                    </div>
+                    <div>
+                        <a class="username col-12">Avatar:</a>
+                        <a class="username-text col-12" style="margin-left: 34%!important;">{{ user.avatarFileName }}</a>
+                        <a class="col-1" href="#" id="avatar-edit" style="float: right;"><span class="fa fa-pen-alt actions" id="avatar-span" style="color: #9fcdff;">&nbsp;</span></a>
+                    </div>
+                    <div id="edit-avatar">
+                        {{ include('MyAccount/_editAvatar.html.twig') }}
+                    </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#username-edit').on('click',function (e) {
+           e.preventDefault();
+           $('#edit-username').toggleClass('edit-username-activate');
+           $('#account-span').toggleClass('fa-pen-alt');
+           $('#account-span').toggleClass('fa-window-close');
+        });
+        $('#avatar-edit').on('click',function (e) {
+           e.preventDefault();
+           $('#edit-avatar').toggleClass('edit-username-activate');
+           $('#avatar-span').toggleClass('fa-pen-alt');
+           $('#avatar-span').toggleClass('fa-window-close');
+        });
+    </script>
+{% endblock %}
