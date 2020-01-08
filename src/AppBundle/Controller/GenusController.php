@@ -24,6 +24,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class GenusController extends Controller
 {
+    private $url;
+    private $urlOld;
     /**
      * @param Request $request
      * @Route("/list", name="genus_list")
@@ -56,6 +58,7 @@ class GenusController extends Controller
     public function newAction(Request $request)
     {
         $url = $request->headers->get('referer');
+
         $genus = new Genus();
         $genus->setCreatedAt(new DateTime());
         $genus->setUpdatedAt(new DateTime());
@@ -126,8 +129,16 @@ class GenusController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        $url = $request->headers->get('referer');
         $genus = $this->getDoctrine()->getRepository('AppBundle:Genus')->find($id);
+        $this->url = $request->headers->get('referer');
+        if (($this->url == 'http://127.0.0.1:8000'.$this->generateUrl('genus_list')) || ($this->url == 'http://127.0.0.1:8000'.$this->generateUrl('user_delete_genus', array('id' => $genus->getUser()->getId()))))
+        {
+            $this->urlOld = $this->url;
+        }
+        else {
+            $this->urlOld = 'http://127.0.0.1:8000'.$this->generateUrl('genus_list');
+        }
+
         $this->get('app.check_authorization')->checkAuthorization($genus, "You are not allowed to edit this genus");
         $genus->setUpdatedAt(new DateTime());
         $form = $this->createForm(GenusForm::class, $genus);
@@ -141,12 +152,12 @@ class GenusController extends Controller
             $this->get('app.update_amount')->updateEverything();
             $this->addFlash('success', sprintf('Genus Updated'));
 
-            return $this->redirectToRoute('genus_list');
+            return $this->redirect($this->urlOld);
         }
         return $this->render('genus/edit.html.twig', array(
             'genus' => $genus,
             'form' => $form->createView(),
-            'url' => $url,
+            'url' => $this->urlOld,
             'correctUrl' => 'http://127.0.0.1:8000'.$this->generateUrl('genus_edit',array('id' => $id))
         ));
     }

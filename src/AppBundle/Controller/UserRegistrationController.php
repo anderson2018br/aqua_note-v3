@@ -30,6 +30,7 @@ class UserRegistrationController extends Controller
         if ($form->isValid())
         {
             $user = $form->getData();
+            $user->setRoles(array());
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();

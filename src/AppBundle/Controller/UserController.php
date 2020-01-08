@@ -1,6 +1,9 @@
 <?php
 
 namespace AppBundle\Controller;
+use AppBundle\Form\userNewForm;
+use DateTime;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -191,6 +194,37 @@ class UserController extends Controller
 
         return $this->render('User/show.html.twig', array(
             'user' => $user
+        ));
+    }
+
+    /**
+     * @noinspection PhpUnused
+     * @Route("/new", name="user_new")
+     * @param Request $request
+     * @return Response
+     * @throws Exception
+     */
+    public function newAction(Request $request)
+    {
+        $form = $this->createForm(userNewForm::class);
+
+        $form->handleRequest($request);
+        if ($form->isValid())
+        {
+            $user = $form->getData();
+            $user->setCreatedAt(new DateTime());
+            $user->setUpdatedAt(new DateTime());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            $this->addFlash('success',sprintf('User Created!'));
+
+            return $this->redirectToRoute('user_list');
+        }
+
+        return $this->render('User/new.html.twig', array(
+            'form' => $form->createView()
         ));
     }
 

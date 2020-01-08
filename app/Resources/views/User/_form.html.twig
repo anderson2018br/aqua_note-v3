@@ -1,0 +1,14 @@
+{{ form_start(form) }}
+   {{ form_row(form.username) }}
+   {{ form_row(form.plainPassword.first, {
+       'label': 'Password'
+   }) }}
+   {{ form_row(form.plainPassword.second, {
+        'label': 'Repeat Password'
+   }) }}
+   {{ form_row(form.avatarFileName) }}
+   {{ form_row(form.roles) }}
+
+    <a href="{{ path('user_list') }}" class="btn btn-dark">Back</a>
+    <button class="btn btn-success" type="submit">Save</button>
+{{ form_end(form) }}
