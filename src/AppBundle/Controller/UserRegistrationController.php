@@ -34,7 +34,7 @@ class UserRegistrationController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-
+            $user->setImageFile(null);
             $this->addFlash('success', 'Welcome '.$user->getusername());
 
             return $this->get('security.authentication.guard_handler')

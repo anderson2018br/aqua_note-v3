@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class UserEditForm extends AbstractType
 {
@@ -16,12 +17,6 @@ class UserEditForm extends AbstractType
     {
         $builder
             ->add('username', TextType::class)
-            ->add('avatarFileName', ChoiceType::class, array(
-                'choices' => array(
-                    'Ryan' => 'ryan.jpeg',
-                    'Leanna' => 'leanna.jpeg'
-                )
-            ))
             ->add('roles', ChoiceType::class, [
                 'multiple' => true,
                 'expanded' => true,
@@ -29,7 +24,8 @@ class UserEditForm extends AbstractType
                     'Admin' => 'ROLE_ADMIN',
                     'Manager' => 'ROLE_MANAGER',
                 ],
-            ]);
+            ])
+            ->add('imageFile', VichImageType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

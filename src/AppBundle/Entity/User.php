@@ -3,15 +3,21 @@
 namespace AppBundle\Entity;
 
 
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\Table(name="user")
  * @UniqueEntity(fields={"username"}, message="It looks like you already have an account")
+ * @Vich\Uploadable()
  */
 class User implements UserInterface
 {
@@ -65,11 +71,6 @@ class User implements UserInterface
     private $roles = [];
 
     /**
-     * @ORM\Column(type="string")
-     */
-    private $avatarFileName;
-
-    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Genus", mappedBy="user")
      */
     private $genus;
@@ -83,6 +84,22 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\GenusNote", mappedBy="user")
      */
     private $note;
+
+    /**
+     * @var
+     * @Vich\UploadableField(mapping="user_avatar", fileNameProperty="imageName", size="imageSize")
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $imageName;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $imageSize;
 
     /**
      * @ORM\Column(type="datetime")
@@ -206,24 +223,6 @@ class User implements UserInterface
      * @return mixed
      * @noinspection PhpUnused
      */
-    public function getAvatarFileName()
-    {
-        return $this->avatarFileName;
-    }
-
-    /**
-     * @param mixed $avatarFileName
-     * @noinspection PhpUnused
-     */
-    public function setAvatarFileName($avatarFileName)
-    {
-        $this->avatarFileName = $avatarFileName;
-    }
-
-    /**
-     * @return mixed
-     * @noinspection PhpUnused
-     */
     public function getNote()
     {
         return $this->note;
@@ -341,6 +340,73 @@ class User implements UserInterface
     {
         $this->totalAmountOfCreatedObjects = $this->getAmountOfGenus() + $this->getAmountOfNotes() + $this->getAmountOfSubFamilies();;
     }
+
+    /**
+     * @return mixed
+     * @noinspection PhpUnused
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     * @param File|UploadedFile $imageFile
+     * @throws Exception
+     * @noinspection PhpUnused
+     */
+    public function setImageFile($imageFile)
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new DateTimeImmutable();
+        }
+    }
+
+    /**
+     * @return mixed
+     * @noinspection PhpUnused
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+    /**
+     * @param mixed $imageName
+     * @noinspection PhpUnused
+     */
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName;
+    }
+
+    /**
+     * @return mixed
+     * @noinspection PhpUnused
+     */
+    public function getImageSize()
+    {
+        return $this->imageSize;
+    }
+
+    /**
+     * @param mixed $imageSize
+     * @noinspection PhpUnused
+     */
+    public function setImageSize($imageSize)
+    {
+        $this->imageSize = $imageSize;
+    }
+
 
 
 }

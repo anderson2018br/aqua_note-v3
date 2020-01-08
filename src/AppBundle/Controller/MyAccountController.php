@@ -61,7 +61,7 @@ class MyAccountController extends Controller
 
             $em->merge($users);
             $em->flush();
-
+            $users->setImageFile(null);
             return  $this->redirectToRoute('account_index');
         }
 

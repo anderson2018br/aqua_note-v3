@@ -6,72 +6,111 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-12 user-account" style="padding: 10px">
-                <h1 class="text-center">MyAccount</h1>
-                <div>
-                    <div>
-                            <a class="username col-12">Username:</a>
-                            <a class="username-text col-12">{{ user.username }}</a>
-                            <a class="col-1" href="#" id="username-edit" title="Edit Username" style="float: right;"><span class="fa fa-pen-alt actions" id="account-span" style="color: #9fcdff;">&nbsp;</span></a>
-                    </div>
-                    <div id="edit-username">
-                           {{ include('MyAccount/_editUsernameForm.html.twig') }}
-                   </div>
-                    <div>
-                        <a class="username col-12">Password</a>
-                        <a class="username-text col-12" style="margin-left: 32%!important;">*******</a>
-                        <a class="col-1" href="#" id="password-edit" type="Edit Password" style="float: right;"><span class="fa fa-pen-alt actions" id="password-span" style="color: #9fcdff;">&nbsp;</span></a>
-                    </div>
-                    <div id="edit-password">
-                        {{ include('MyAccount/_editPassword.html.twig') }}
-                    </div>
-                    <div>
-                        <a class="username col-12">Roles:</a>
-                        <a class="username-text col-12" style="margin-left: 25%!important;">
-                            {% for role in user.roles %}
-                                {{ role | lower }}
-                            {% endfor %}
-                        </a>
-                    </div>
-                    <div>
-                        <a class="username col-12">Avatar:</a>
-                        <a class="username-text col-12" style="margin-left: 34%!important;">{{ user.avatarFileName }}</a>
-                        <a class="col-1" href="#" id="avatar-edit" style="float: right;"><span class="fa fa-pen-alt actions" id="avatar-span" style="color: #9fcdff;" title="Change Avatar">&nbsp;</span></a>
-                    </div>
-                    <div id="edit-avatar">
-                        {{ include('MyAccount/_editAvatar.html.twig') }}
-                    </div>
-                    <div>
-                        <a class="username col-12">Genus Created:</a>
-                        <a class="username-text col-12" style="margin-left: 29%!important;">{{ user.amountOfGenus }}</a>
-                    </div>
-                    <div>
-                        <a class="username col-12">SubFamilies Created:</a>
-                        <a class="username-text col-12" style="margin-left: 23.7%!important;">{{ user.amountOfSubFamilies }}</a>
-                    </div>
-                    <div>
-                        <a class="username col-12">Notes Created:</a>
-                        <a class="username-text col-12" style="margin-left: 29.7%!important;">{{ user.amountOfNotes }}</a>
-                    </div>
-                    <div>
-                        <a class="username col-12">Total Creations:</a>
-                        <a class="username-text col-12" style="margin-left: 28.8%!important;">{{ user.totalAmountOfCreatedObjects }}</a>
-                    </div>
-                    <div>
-                        <a class="username col-12">Created At:</a>
-                        <a class="username-text col-12" style="margin-left: 25%!important;">{{ user.createdAt | date('M d Y H i s') }}</a>
-                    </div>
-                    <div>
-                        <a class="username col-12">Updated At:</a>
-                        <a class="username-text col-12" style="margin-left: 24.5%!important;">{{ user.updatedAt | date('M d Y H i s') }}</a>
-                    </div>
-            </div>
-        </div>
-        </div>
-    </div>
+<table class="table table-striped">
+    <h1 style="margin-bottom: 50px; margin-left: 45%;">My Account</h1>
+    <tbody>
+        <tr>
+            <td class="username">Username:</td>
+            <td class="username-text">{{ user.username }}</td>
+            <td><a href="#" id="username-edit" title="Edit Username"><span class="fa fa-pen-alt actions" id="account-span">&nbsp;</span></a> </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>
+                <div id="edit-username" class="col-12">
+                    {{ include('MyAccount/_editUsernameForm.html.twig') }}
 
+                </div>
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td class="username">Password</td>
+            <td class="username-text">*****</td>
+            <td><a href="#" id="password-edit" title="Edit Password"><span class="fa fa-pen-alt actions" id="password-span">&nbsp;</span></a> </td>
+        </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>
+            <div id="edit-password">
+                {{ include('MyAccount/_editPassword.html.twig') }}
+            </div>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td class="username">Roles</td>
+        <td class="username-text">
+            {% for role in user.roles %}
+                {{ role }}
+            {% endfor %}
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr>
+        <td class="username">Avatar:</td>
+        <td class="username-text">
+            <img src="{{ asset('images/avatars/') }}{{ user.imageName }}" alt="User Avatar" title="User Avatar" id="user_avatar"/>
+        </td>
+        <td>
+            <a href="#" id="avatar-edit"><span class="fa fa-pen-alt actions" id="avatar-span" title="Change Avatar">&nbsp;</span></a>
+        </td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>
+            <div id="edit-avatar">
+                {{ include('MyAccount/_editAvatar.html.twig') }}
+            </div>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td class="username">Genus Created:</td>
+        <td class="username-text">
+            <a href="{{ path('user_genus_show',{'id': user.id}) }}" class="actions">{{ user.amountOfGenus }}</a>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr>
+        <td class="username">SubFamilies Created:</td>
+        <td class="username-text">
+            <a href="{{ path('user_subFamily_show', {'id': user.id}) }}" class="actions">{{ user.amountOfSubFamilies }}</a>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr>
+        <td class="username">Notes Created:</td>
+        <td class="username-text">
+            <a href="{{ path('user_show_notes', {'id': user.id}) }}" class="actions">{{ user.amountOfNotes }}</a>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr>
+        <td class="username">Total Creations</td>
+        <td class="username-text">{{ user.totalAmountOfCreatedObjects }}</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr>
+        <td class="username">Created At:</td>
+        <td class="username-text">{{ user.createdAt | date('M d Y H i s') }}</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr>
+        <td class="username">Updated At:</td>
+        <td class="username-text">{{ user.updatedAt | date('M d Y H i s') }}</td>
+        <td>&nbsp;</td>
+    </tr>
+    </tbody>
+</table>
 
 {% endblock %}
 
@@ -86,7 +125,7 @@
         });
         $('#avatar-edit').on('click',function (e) {
            e.preventDefault();
-           $('#edit-avatar').toggleClass('edit-username-activate');
+           $('#edit-avatar').toggleClass('edit-avatar-activate');
            $('#avatar-span').toggleClass('fa-pen-alt');
            $('#avatar-span').toggleClass('fa-window-close');
         });

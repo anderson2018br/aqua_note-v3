@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class UserRegistrationForm extends AbstractType
 {
@@ -20,12 +21,7 @@ class UserRegistrationForm extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class
             ])
-            ->add('avatarFileName', ChoiceType::class, array(
-                'choices' => array(
-                    'Ryan' => 'ryan.jpeg',
-                    'Leanna' => 'leanna.jpeg'
-                )
-            ));
+            ->add('imageFile', VichImageType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

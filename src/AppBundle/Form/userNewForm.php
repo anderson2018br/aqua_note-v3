@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class userNewForm extends AbstractType
 {
@@ -19,12 +20,6 @@ class userNewForm extends AbstractType
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class
             ))
-            ->add('avatarFileName', ChoiceType::class, array(
-                'choices' => array(
-                    'Ryan' => 'ryan.jpeg',
-                    'Leanna' => 'leanna.jpeg'
-                )
-            ))
             ->add('roles', ChoiceType::class, [
                 'multiple' => true,
                 'expanded' => true,
@@ -32,7 +27,8 @@ class userNewForm extends AbstractType
                     'Admin' => 'ROLE_ADMIN',
                     'Manager' => 'ROLE_MANAGER',
                 ],
-            ]);
+            ])
+            ->add('imageFile', VichImageType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
