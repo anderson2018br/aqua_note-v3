@@ -300,6 +300,48 @@ class UserController extends Controller
         ));
     }
 
+    /**
+     * @param $id
+     * @return RedirectResponse
+     * @noinspection PhpUnused
+     * @Route("/user/{id}/delete", name="user_delete")
+     */
+    public function deleteAction($id)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+        foreach ($user->getGenus() as $genus)
+        {
+            foreach ($genus->getNote() as $note)
+            {
+                $em->remove($note);
+            }
+            $em->remove($genus);
+        }
+        foreach ($user->getSubFamily() as $subFamily)
+        {
+            foreach ($subFamily->getGenus() as $genus)
+            {
+                foreach ($genus->getNote() as $note)
+                {
+                    $em->remove($note);
+                }
+                $em->remove($genus);
+            }
+            $em->remove($subFamily);
+        }
+        foreach ($user->getNote() as $note)
+        {
+            $em->remove($note);
+        }
+        $em->remove($user);
+        $em->flush();
+
+        $this->addFlash('success', sprintf('User Deleted!'));
+        return $this->redirectToRoute('user_list');
+    }
+
     public function getFilterResults($users, $filter, $choice, $how)
     {
         if ($choice == 1)

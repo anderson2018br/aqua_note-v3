@@ -81,7 +81,7 @@ class GenusNoteController extends Controller
         }
 
         return $this->render('Notes/new.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ));
     }
 

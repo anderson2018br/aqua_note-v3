@@ -3,11 +3,7 @@
                     {{ form_row(form.genus) }}
                     {{ form_row(form.note) }}
 
-{% if url == correctUrl %}
 <a href="{{ path('notes_list') }}" class="btn btn-dark">back</a>
-{% else %}
-<a href="{{ url }}" class="btn btn-dark">back</a>
-{% endif %}
 <button class="btn btn-success" type="submit">Save</button>
 {{ form_end(form) }}
 {% endif %}

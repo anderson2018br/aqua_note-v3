@@ -88,7 +88,7 @@
                 <th>Total Creations</th>
                 <th>Avatar File Name</th>
                 <th>Roles</th>
-                <th>Actions</th>
+                <th style="width: 100px;">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -129,7 +129,8 @@
                     {% if user.username != app.user.username %}
                         |
                     <a href="{{ path('user_edit', {'id': user.id}) }}" title="Edit User"><span class="fa fa-pen actions">&nbsp;</span></a> |
-                    <a href="{{ path('user_password', {'id': user.id}) }}" title="Change Password"><span class="fa fa-passport actions">&nbsp;</span></a>
+                    <a href="{{ path('user_password', {'id': user.id}) }}" title="Change Password"><span class="fa fa-passport actions">&nbsp;</span></a> |
+                    <a href="{{ path('user_delete', {'id': user.id}) }}" title="Delete User" class="delete-genus"><span class="fa fa-trash-alt actions">&nbsp;</span></a>
                     {% endif %}
                 </td>
             </tr>
