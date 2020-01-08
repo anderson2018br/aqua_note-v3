@@ -28,7 +28,17 @@
     z-index: 1;
     transition: height .3s linear;
 }
+#edit-password {
+    height: 0;
+    overflow: hidden;
+    z-index: 1;
+    transition: height .3s linear;
+}
 .edit-username-activate {
     height: 150px!important;
+    transition: height .3s linear;
+}
+.edit-password-activate {
+    height: 300px!important;
     transition: height .3s linear;
 }

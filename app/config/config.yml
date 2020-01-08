@@ -71,3 +71,11 @@ swiftmailer:
 sensio_framework_extra:
    router:
         annotations: false
+
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        product_image:
+            uri_prefix: /images/user
+            upload_destination: '%kernel.project_dir%/web/images/avatars'

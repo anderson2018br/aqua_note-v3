@@ -8,7 +8,7 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="col-12 user-account" >
+            <div class="col-12 user-account" style="padding: 10px">
                 <h1 class="text-center">MyAccount</h1>
                 <div>
                     <div>
@@ -20,6 +20,14 @@
                            {{ include('MyAccount/_editUsernameForm.html.twig') }}
                    </div>
                     <div>
+                        <a class="username col-12">Password</a>
+                        <a class="username-text col-12" style="margin-left: 32%!important;">*******</a>
+                        <a class="col-1" href="#" id="password-edit" type="Edit Password" style="float: right;"><span class="fa fa-pen-alt actions" id="password-span" style="color: #9fcdff;">&nbsp;</span></a>
+                    </div>
+                    <div id="edit-password">
+                        {{ include('MyAccount/_editPassword.html.twig') }}
+                    </div>
+                    <div>
                         <a class="username col-12">Roles:</a>
                         <a class="username-text col-12" style="margin-left: 25%!important;">
                             {% for role in user.roles %}
@@ -30,13 +38,39 @@
                     <div>
                         <a class="username col-12">Avatar:</a>
                         <a class="username-text col-12" style="margin-left: 34%!important;">{{ user.avatarFileName }}</a>
-                        <a class="col-1" href="#" id="avatar-edit" style="float: right;"><span class="fa fa-pen-alt actions" id="avatar-span" style="color: #9fcdff;">&nbsp;</span></a>
+                        <a class="col-1" href="#" id="avatar-edit" style="float: right;"><span class="fa fa-pen-alt actions" id="avatar-span" style="color: #9fcdff;" title="Change Avatar">&nbsp;</span></a>
                     </div>
                     <div id="edit-avatar">
                         {{ include('MyAccount/_editAvatar.html.twig') }}
                     </div>
+                    <div>
+                        <a class="username col-12">Genus Created:</a>
+                        <a class="username-text col-12" style="margin-left: 29%!important;">{{ user.amountOfGenus }}</a>
+                    </div>
+                    <div>
+                        <a class="username col-12">SubFamilies Created:</a>
+                        <a class="username-text col-12" style="margin-left: 23.7%!important;">{{ user.amountOfSubFamilies }}</a>
+                    </div>
+                    <div>
+                        <a class="username col-12">Notes Created:</a>
+                        <a class="username-text col-12" style="margin-left: 29.7%!important;">{{ user.amountOfNotes }}</a>
+                    </div>
+                    <div>
+                        <a class="username col-12">Total Creations:</a>
+                        <a class="username-text col-12" style="margin-left: 28.8%!important;">{{ user.totalAmountOfCreatedObjects }}</a>
+                    </div>
+                    <div>
+                        <a class="username col-12">Created At:</a>
+                        <a class="username-text col-12" style="margin-left: 25%!important;">{{ user.createdAt | date('M d Y H i s') }}</a>
+                    </div>
+                    <div>
+                        <a class="username col-12">Updated At:</a>
+                        <a class="username-text col-12" style="margin-left: 24.5%!important;">{{ user.updatedAt | date('M d Y H i s') }}</a>
+                    </div>
             </div>
         </div>
+        </div>
+    </div>
 
 
 {% endblock %}
@@ -55,6 +89,12 @@
            $('#edit-avatar').toggleClass('edit-username-activate');
            $('#avatar-span').toggleClass('fa-pen-alt');
            $('#avatar-span').toggleClass('fa-window-close');
+        });
+        $('#password-edit').on('click',function (e) {
+           e.preventDefault();
+           $('#edit-password').toggleClass('edit-password-activate');
+           $('#password-span').toggleClass('fa-pen-alt');
+           $('#password-span').toggleClass('fa-window-close');
         });
     </script>
 {% endblock %}

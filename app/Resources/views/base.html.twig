@@ -110,12 +110,12 @@
     {% endif %}
     <main class="container">
         {% for msg in app.session.flashBag.get('success') %}
-            <div class="alert alert-success">
+            <div class="alert alert-success" style="margin-left: 150px;">
                 {{ msg }}
             </div>
         {% endfor %}
         {% for msg in app.session.flashBag.get('danger') %}
-            <div class="alert alert-danger">
+            <div class="alert alert-danger" style="margin-left: 150px;">
                 {{ msg }}
             </div>
         {% endfor %}

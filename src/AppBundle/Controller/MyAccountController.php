@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Form\MyAccountEditAvatarForm;
 use AppBundle\Form\MyAccountEditUsernameForm;
+use AppBundle\Form\UserChangePasswordForm;
 use DateTime;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 
 /**
  * Class MyAccountController
@@ -35,6 +37,12 @@ class MyAccountController extends Controller
 
         $formUsername = $this->createForm(MyAccountEditUsernameForm::class, $user);
         $formUsername->handleRequest($request);
+        if ($formUsername->isSubmitted() && !$formUsername->isValid())
+        {
+            $this->addFlash('danger', 'Username Already exists');
+
+            return $this->redirectToRoute('account_index');
+        }
         if ($formUsername->isSubmitted() && $formUsername->isValid())
         {
             $users = $formUsername->getData();
@@ -57,10 +65,34 @@ class MyAccountController extends Controller
             return  $this->redirectToRoute('account_index');
         }
 
+        $formChangePassword = $this->createForm(UserChangePasswordForm::class);
+        $formChangePassword->handleRequest($request);
+
+        if ($formChangePassword->isSubmitted() && $formChangePassword->isValid())
+        {
+
+            $password = $formChangePassword->getData();
+            if ($this->get('app.security.login_form_authenticator')->checkCredentials($password, $user))
+            {
+                $user->setPlainPassword($password['plainPassword']);
+                $em->merge($user);
+                $em->flush();
+
+                $this->addFlash('success','Password Updated');
+
+                return  $this->redirectToRoute('account_index');
+            }
+
+            $this->addFlash('danger', sprintf('Current Password is Wrong'));
+
+            return $this->redirectToRoute('account_index');
+        }
+
         return $this->render('MyAccount/index.html.twig', array(
             'user' => $user,
             'formUsername' => $formUsername->createView(),
             'formAvatar'   => $formAvatar->createView(),
+            'formPassword' => $formChangePassword->createView(),
         ));
     }
 }

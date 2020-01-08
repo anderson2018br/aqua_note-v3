@@ -6,6 +6,7 @@ use Knp\Bundle\PaginatorBundle\KnpPaginatorBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Vich\UploaderBundle\VichUploaderBundle;
 
 class AppKernel extends Kernel
 {
@@ -22,6 +23,7 @@ class AppKernel extends Kernel
             new DoctrineMigrationsBundle(),
             new KnpPaginatorBundle(),
             new AppBundle\AppBundle(),
+            new VichUploaderBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
