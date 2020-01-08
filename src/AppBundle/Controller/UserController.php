@@ -1,7 +1,9 @@
 <?php
 
 namespace AppBundle\Controller;
+use AppBundle\Form\UserEditForm;
 use AppBundle\Form\userNewForm;
+use AppBundle\Form\UserPassword;
 use DateTime;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -224,6 +226,76 @@ class UserController extends Controller
         }
 
         return $this->render('User/new.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @param $id
+     * @param Request $request
+     * @noinspection PhpUnused
+     * @Route("/edit/{id}", name="user_edit")
+     * @return RedirectResponse|Response
+     * @throws Exception
+     */
+    public function editAction($id, Request $request)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        $form = $this->createForm(UserEditForm::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isValid())
+        {
+            $users = $form->getData();
+            $users->setUpdatedAt(new DateTime());
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($users);
+            $em->flush();
+
+            $this->addFlash('success', sprintf('User Updated!'));
+
+            return $this->redirectToRoute('user_list');
+        }
+
+        return $this->render('User/edit.html.twig', array(
+            'user' => $user,
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return RedirectResponse|Response
+     * @throws Exception
+     * @Route("/{id}/password/edit", name="user_password")
+     * @noinspection PhpUnused
+     */
+    public function passwordAction(Request $request, $id)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        $form = $this->createForm(UserPassword::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isValid())
+        {
+            $users = $form->getData();
+            $users->setUpdatedAt(new DateTime());
+
+            $em = $this->getDoctrine()->getManager();
+            $em->merge($users);
+            $em->flush();
+
+            $this->addFlash('success', sprintf('User\'s Password Updated!'));
+
+            return $this->redirectToRoute('user_list');
+        }
+
+        return $this->render('User/password.html.twig', array(
+            'user' => $user,
             'form' => $form->createView()
         ));
     }

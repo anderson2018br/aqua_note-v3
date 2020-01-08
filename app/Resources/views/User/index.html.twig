@@ -125,7 +125,11 @@
                     {% endfor %}
                 </td>
                 <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}"><span class="fa fa-eye actions">&nbsp;</span></a>
+                    <a href="{{ path('user_show', {'id': user.id}) }}"><span class="fa fa-eye actions">&nbsp;</span></a> |
+                    {% if user.username != app.user.username %}
+                    <a href="{{ path('user_edit', {'id': user.id}) }}"><span class="fa fa-pen actions">&nbsp;</span></a> |
+                    <a href="{{ path('user_password', {'id': user.id}) }}" title="Change Password"><span class="fa fa-passport actions">&nbsp;</span></a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
